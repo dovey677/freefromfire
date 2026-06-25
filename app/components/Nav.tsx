@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 export default function Nav() {
   return (
-    <nav style={{ backgroundColor: '#111', borderBottom: '1px solid #2a2a2a', padding: '0.75rem 1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+    <nav style={{ backgroundColor: '#111', borderBottom: '1px solid #2a2a2a', padding: '0.75rem clamp(0.5rem, 2vw, 1.5rem)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
       <Link href="/" style={{ textDecoration: 'none', flexShrink: 0 }}>
         <img
           src="/logo-horizontal.png"
