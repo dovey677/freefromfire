@@ -64,10 +64,60 @@ export default {
       },
     },
     {
-      name: 'ingredients',
-      title: 'Ingredients',
+      name: 'ingredientGroups',
+      title: 'Ingredient Groups',
       type: 'array',
-      of: [{ type: 'string' }],
+      of: [
+        {
+          type: 'object',
+          fields: [
+            {
+              name: 'groupTitle',
+              title: 'Group Title (e.g. "For the sauce", "For the rub")',
+              type: 'string',
+            },
+            {
+              name: 'ingredients',
+              title: 'Ingredients',
+              type: 'array',
+              of: [
+                {
+                  type: 'object',
+                  fields: [
+                    {
+                      name: 'quantity',
+                      title: 'Quantity (number only, e.g. 3)',
+                      type: 'number',
+                    },
+                    {
+                      name: 'unit',
+                      title: 'Unit (e.g. g, kg, tbsp, tsp — leave blank for items like "steaks")',
+                      type: 'string',
+                    },
+                    {
+                      name: 'name',
+                      title: 'Ingredient Name (e.g. ribeye steaks, butter)',
+                      type: 'string',
+                    },
+                  ],
+                  preview: {
+                    select: {
+                      quantity: 'quantity',
+                      unit: 'unit',
+                      name: 'name',
+                    },
+                    prepare({ quantity, unit, name }) {
+                      return {
+                        title: `${quantity || ''} ${unit || ''} ${name || ''}`.trim(),
+                      }
+                    },
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      ],
     },
     {
       name: 'steps',

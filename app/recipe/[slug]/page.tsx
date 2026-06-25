@@ -1,5 +1,6 @@
 import { client } from '../../../lib/sanity'
 import Link from 'next/link'
+import IngredientList from '../../components/IngredientList'
 
 async function getRecipe(slug: string) {
   return client.fetch(
@@ -13,7 +14,14 @@ async function getRecipe(slug: string) {
       allergens,
       glutenFree,
       fireMethod,
-      ingredients,
+      ingredientGroups[] {
+        groupTitle,
+        ingredients[] {
+          quantity,
+          unit,
+          name
+        }
+      },
       steps,
       videoUrl,
       "thumbnail": thumbnail.asset->url
@@ -105,21 +113,8 @@ export default async function RecipePage({ params }: any) {
           </div>
         )}
 
-        {recipe.ingredients?.length > 0 && (
-          <div style={{ marginBottom: '2.5rem' }}>
-            <h2 style={{ fontFamily: 'Oswald, sans-serif', fontSize: '1.5rem', fontWeight: 600, color: '#EAD7C5', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '1rem' }}>
-              Ingredients
-            </h2>
-            <div style={{ width: '2rem', height: '2px', backgroundColor: '#E85C2B', marginBottom: '1.25rem' }} />
-            <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-              {recipe.ingredients.map((ingredient: string, i: number) => (
-                <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', fontFamily: 'Inter, sans-serif', color: '#EAD7C5', fontSize: '0.95rem', lineHeight: 1.5 }}>
-                  <span style={{ color: '#E85C2B', marginTop: '2px', flexShrink: 0 }}>—</span>
-                  {ingredient}
-                </li>
-              ))}
-            </ul>
-          </div>
+        {recipe.ingredientGroups?.length > 0 && (
+          <IngredientList groups={recipe.ingredientGroups} />
         )}
 
         {recipe.steps?.length > 0 && (
@@ -128,13 +123,13 @@ export default async function RecipePage({ params }: any) {
               Method
             </h2>
             <div style={{ width: '2rem', height: '2px', backgroundColor: '#E85C2B', marginBottom: '1.25rem' }} />
-            <ol style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            <ol style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '0' }}>
               {recipe.steps.map((step: string, i: number) => (
-                <li key={i} style={{ display: 'flex', gap: '1.25rem', alignItems: 'flex-start' }}>
+                <li key={i} style={{ display: 'flex', gap: '1.25rem', alignItems: 'flex-start', padding: '1.25rem', backgroundColor: i % 2 === 0 ? '#252525' : '#2a2020', borderRadius: '6px', marginBottom: '2px' }}>
                   <span style={{ fontFamily: 'Oswald, sans-serif', fontSize: '1.5rem', fontWeight: 700, color: '#E85C2B', flexShrink: 0, lineHeight: 1 }}>
                     {String(i + 1).padStart(2, '0')}
                   </span>
-                  <p style={{ fontFamily: 'Inter, sans-serif', color: '#EAD7C5', fontSize: '0.95rem', lineHeight: 1.7, margin: 0 }}>
+                  <p style={{ fontFamily: 'Inter, sans-serif', color: '#EAD7C5', fontSize: '0.95rem', lineHeight: 1.7, margin: 0, whiteSpace: 'pre-line' }}>
                     {step}
                   </p>
                 </li>
@@ -142,7 +137,6 @@ export default async function RecipePage({ params }: any) {
             </ol>
           </div>
         )}
-
         {recipe.videoUrl && (
           <div style={{ marginBottom: '2.5rem' }}>
             <h2 style={{ fontFamily: 'Oswald, sans-serif', fontSize: '1.5rem', fontWeight: 600, color: '#EAD7C5', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '1rem' }}>
