@@ -22,9 +22,16 @@ export default async function Home() {
   return (
     <main style={{ backgroundColor: '#1F1F1F', minHeight: '100vh' }}>
 
-      <section style={{ backgroundColor: '#111', borderBottom: '1px solid #2a2a2a', padding: '5rem 2rem' }} className="text-center">
+      <section style={{ backgroundColor: '#111', borderBottom: '1px solid #2a2a2a', padding: '4rem 2rem' }} className="text-center">
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '2rem' }}>
+          <img
+            src="/logo.png"
+            alt="Free From Fire"
+            style={{ width: '220px', height: '220px', objectFit: 'contain' }}
+          />
+        </div>
         <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#7A8F6A', marginBottom: '1rem' }}>
-          Free from gluten. Cooked over fire.
+          Free from limits. Forged by fire.
         </p>
         <h1 style={{ fontFamily: 'Oswald, sans-serif', fontSize: 'clamp(3rem, 8vw, 6rem)', fontWeight: 700, color: '#F7F5F2', lineHeight: 1, marginBottom: '1.5rem', letterSpacing: '0.02em' }}>
           FIRE-COOKED.<br />
