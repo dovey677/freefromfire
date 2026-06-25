@@ -1,4 +1,5 @@
 import { client } from '../../../lib/sanity'
+import Link from 'next/link'
 
 async function getRecipe(slug: string) {
   return client.fetch(
@@ -27,6 +28,11 @@ export default async function RecipePage({ params }: any) {
 
   return (
     <main className="min-h-screen bg-gray-950 text-white p-8 max-w-3xl mx-auto">
+      
+      <Link href="/" className="inline-flex items-center text-orange-500 hover:text-orange-400 mb-6 transition">
+        ← Back to recipes
+      </Link>
+
       {recipe.thumbnail && (
         <img
           src={recipe.thumbnail}
@@ -106,6 +112,7 @@ export default async function RecipePage({ params }: any) {
           />
         </div>
       )}
+
     </main>
   )
 }
