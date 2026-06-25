@@ -27,92 +27,137 @@ export default async function RecipePage({ params }: any) {
   const recipe = await getRecipe(slug)
 
   return (
-    <main className="min-h-screen bg-gray-950 text-white p-8 max-w-3xl mx-auto">
-      
-      <Link href="/" className="inline-flex items-center text-orange-500 hover:text-orange-400 mb-6 transition">
-        ← Back to recipes
-      </Link>
+    <main style={{ backgroundColor: '#1F1F1F', minHeight: '100vh' }}>
 
       {recipe.thumbnail && (
-        <img
-          src={recipe.thumbnail}
-          alt={recipe.title}
-          className="w-full h-64 object-cover rounded-xl mb-6"
-        />
-      )}
-
-      <div className="flex gap-2 mb-4">
-        <span className="text-xs bg-orange-500 text-white px-2 py-1 rounded-full">
-          {recipe.category}
-        </span>
-        {recipe.glutenFree && (
-          <span className="text-xs bg-green-600 text-white px-2 py-1 rounded-full">
-            Gluten Free
-          </span>
-        )}
-      </div>
-
-      <h1 className="text-4xl font-bold mb-2">{recipe.title}</h1>
-
-      <div className="flex gap-6 text-gray-400 text-sm mb-8">
-        {recipe.prepTime && <span>Prep: {recipe.prepTime} mins</span>}
-        {recipe.cookTime && <span>Cook: {recipe.cookTime} mins</span>}
-        {recipe.serves && <span>Serves: {recipe.serves}</span>}
-        {recipe.fireMethod && <span>Method: {recipe.fireMethod}</span>}
-      </div>
-
-      {recipe.allergens?.length > 0 && (
-        <div className="mb-8">
-          <h2 className="text-lg font-semibold mb-2">Allergens</h2>
-          <div className="flex gap-2 flex-wrap">
-            {recipe.allergens.map((allergen: string) => (
-              <span key={allergen} className="text-xs bg-red-800 text-white px-2 py-1 rounded-full">
-                {allergen}
-              </span>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {recipe.ingredients?.length > 0 && (
-        <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-4">Ingredients</h2>
-          <ul className="space-y-2">
-            {recipe.ingredients.map((ingredient: string, i: number) => (
-              <li key={i} className="flex items-start gap-2 text-gray-300">
-                <span className="text-orange-500 mt-1">•</span>
-                {ingredient}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-
-      {recipe.steps?.length > 0 && (
-        <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-4">Method</h2>
-          <ol className="space-y-4">
-            {recipe.steps.map((step: string, i: number) => (
-              <li key={i} className="flex gap-4 text-gray-300">
-                <span className="text-orange-500 font-bold text-lg">{i + 1}</span>
-                <p>{step}</p>
-              </li>
-            ))}
-          </ol>
-        </div>
-      )}
-
-      {recipe.videoUrl && (
-        <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-4">Video</h2>
-          <iframe
-            src={recipe.videoUrl}
-            className="w-full aspect-video rounded-xl"
-            allowFullScreen
+        <div style={{ width: '100%', height: '400px', overflow: 'hidden', position: 'relative' }}>
+          <img
+            src={recipe.thumbnail}
+            alt={recipe.title}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.8 }}
           />
+          <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '50%', background: 'linear-gradient(to bottom, transparent, #1F1F1F)' }} />
         </div>
       )}
 
+      <div style={{ maxWidth: '48rem', margin: '0 auto', padding: '2rem 2rem 4rem' }}>
+
+        <Link href="/" style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#E85C2B', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginBottom: '2rem' }}>
+          ← Back to recipes
+        </Link>
+
+        <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
+          {recipe.category && (
+            <span style={{ fontSize: '0.7rem', backgroundColor: '#E85C2B', color: '#F7F5F2', padding: '3px 12px', borderRadius: '999px', fontFamily: 'Inter, sans-serif', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+              {recipe.category}
+            </span>
+          )}
+          {recipe.glutenFree && (
+            <span style={{ fontSize: '0.7rem', backgroundColor: '#7A8F6A', color: '#F7F5F2', padding: '3px 12px', borderRadius: '999px', fontFamily: 'Inter, sans-serif', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+              Gluten Free
+            </span>
+          )}
+        </div>
+
+        <h1 style={{ fontFamily: 'Oswald, sans-serif', fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 700, color: '#F7F5F2', letterSpacing: '0.02em', marginBottom: '1rem', lineHeight: 1.1 }}>
+          {recipe.title}
+        </h1>
+
+        <div style={{ width: '3rem', height: '3px', backgroundColor: '#E85C2B', marginBottom: '1.5rem' }} />
+
+        <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap', marginBottom: '2.5rem' }}>
+          {recipe.prepTime && (
+            <div>
+              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.7rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#7A8F6A', marginBottom: '0.25rem' }}>Prep</p>
+              <p style={{ fontFamily: 'Oswald, sans-serif', fontSize: '1.25rem', color: '#EAD7C5' }}>{recipe.prepTime} mins</p>
+            </div>
+          )}
+          {recipe.cookTime && (
+            <div>
+              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.7rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#7A8F6A', marginBottom: '0.25rem' }}>Cook</p>
+              <p style={{ fontFamily: 'Oswald, sans-serif', fontSize: '1.25rem', color: '#EAD7C5' }}>{recipe.cookTime} mins</p>
+            </div>
+          )}
+          {recipe.serves && (
+            <div>
+              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.7rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#7A8F6A', marginBottom: '0.25rem' }}>Serves</p>
+              <p style={{ fontFamily: 'Oswald, sans-serif', fontSize: '1.25rem', color: '#EAD7C5' }}>{recipe.serves}</p>
+            </div>
+          )}
+          {recipe.fireMethod && (
+            <div>
+              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.7rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#7A8F6A', marginBottom: '0.25rem' }}>Method</p>
+              <p style={{ fontFamily: 'Oswald, sans-serif', fontSize: '1.25rem', color: '#EAD7C5' }}>{recipe.fireMethod}</p>
+            </div>
+          )}
+        </div>
+
+        {recipe.allergens?.length > 0 && (
+          <div style={{ backgroundColor: '#2a2020', border: '1px solid #3a2a2a', borderRadius: '8px', padding: '1rem 1.25rem', marginBottom: '2.5rem' }}>
+            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.7rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#7A8F6A', marginBottom: '0.75rem' }}>Contains</p>
+            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+              {recipe.allergens.map((allergen: string) => (
+                <span key={allergen} style={{ fontSize: '0.75rem', backgroundColor: '#B23A1B', color: '#F7F5F2', padding: '3px 12px', borderRadius: '999px', fontFamily: 'Inter, sans-serif' }}>
+                  {allergen}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {recipe.ingredients?.length > 0 && (
+          <div style={{ marginBottom: '2.5rem' }}>
+            <h2 style={{ fontFamily: 'Oswald, sans-serif', fontSize: '1.5rem', fontWeight: 600, color: '#EAD7C5', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '1rem' }}>
+              Ingredients
+            </h2>
+            <div style={{ width: '2rem', height: '2px', backgroundColor: '#E85C2B', marginBottom: '1.25rem' }} />
+            <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              {recipe.ingredients.map((ingredient: string, i: number) => (
+                <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', fontFamily: 'Inter, sans-serif', color: '#EAD7C5', fontSize: '0.95rem', lineHeight: 1.5 }}>
+                  <span style={{ color: '#E85C2B', marginTop: '2px', flexShrink: 0 }}>—</span>
+                  {ingredient}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {recipe.steps?.length > 0 && (
+          <div style={{ marginBottom: '2.5rem' }}>
+            <h2 style={{ fontFamily: 'Oswald, sans-serif', fontSize: '1.5rem', fontWeight: 600, color: '#EAD7C5', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '1rem' }}>
+              Method
+            </h2>
+            <div style={{ width: '2rem', height: '2px', backgroundColor: '#E85C2B', marginBottom: '1.25rem' }} />
+            <ol style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+              {recipe.steps.map((step: string, i: number) => (
+                <li key={i} style={{ display: 'flex', gap: '1.25rem', alignItems: 'flex-start' }}>
+                  <span style={{ fontFamily: 'Oswald, sans-serif', fontSize: '1.5rem', fontWeight: 700, color: '#E85C2B', flexShrink: 0, lineHeight: 1 }}>
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <p style={{ fontFamily: 'Inter, sans-serif', color: '#EAD7C5', fontSize: '0.95rem', lineHeight: 1.7, margin: 0 }}>
+                    {step}
+                  </p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        )}
+
+        {recipe.videoUrl && (
+          <div style={{ marginBottom: '2.5rem' }}>
+            <h2 style={{ fontFamily: 'Oswald, sans-serif', fontSize: '1.5rem', fontWeight: 600, color: '#EAD7C5', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '1rem' }}>
+              Video
+            </h2>
+            <div style={{ width: '2rem', height: '2px', backgroundColor: '#E85C2B', marginBottom: '1.25rem' }} />
+            <iframe
+              src={recipe.videoUrl}
+              style={{ width: '100%', aspectRatio: '16/9', borderRadius: '8px', border: 'none' }}
+              allowFullScreen
+            />
+          </div>
+        )}
+
+      </div>
     </main>
   )
 }

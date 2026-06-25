@@ -22,62 +22,86 @@ export default async function GuidePage({ params }: any) {
   const guide = await getGuide(slug)
 
   return (
-    <main className="min-h-screen bg-gray-950 text-white p-8 max-w-3xl mx-auto">
-      <Link href="/guides" className="inline-flex items-center text-orange-500 hover:text-orange-400 mb-6 transition">
-        ← Back to guides
-      </Link>
+    <main style={{ backgroundColor: '#1F1F1F', minHeight: '100vh' }}>
 
       {guide.thumbnail && (
-        <img
-          src={guide.thumbnail}
-          alt={guide.title}
-          className="w-full h-64 object-cover rounded-xl mb-6"
-        />
-      )}
-
-      <div className="flex gap-2 mb-4">
-        {guide.category && (
-          <span className="text-xs bg-orange-500 text-white px-2 py-1 rounded-full">
-            {guide.category}
-          </span>
-        )}
-        {guide.difficulty && (
-          <span className="text-xs bg-gray-600 text-white px-2 py-1 rounded-full">
-            {guide.difficulty}
-          </span>
-        )}
-      </div>
-
-      <h1 className="text-4xl font-bold mb-4">{guide.title}</h1>
-
-      {guide.summary && (
-        <p className="text-gray-400 mb-8 text-lg">{guide.summary}</p>
-      )}
-
-      {guide.steps?.length > 0 && (
-        <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-4">Steps</h2>
-          <ol className="space-y-4">
-            {guide.steps.map((step: string, i: number) => (
-              <li key={i} className="flex gap-4 text-gray-300">
-                <span className="text-orange-500 font-bold text-lg">{i + 1}</span>
-                <p>{step}</p>
-              </li>
-            ))}
-          </ol>
-        </div>
-      )}
-
-      {guide.videoUrl && (
-        <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-4">Video</h2>
-          <iframe
-            src={guide.videoUrl}
-            className="w-full aspect-video rounded-xl"
-            allowFullScreen
+        <div style={{ width: '100%', height: '400px', overflow: 'hidden', position: 'relative' }}>
+          <img
+            src={guide.thumbnail}
+            alt={guide.title}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.8 }}
           />
+          <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '50%', background: 'linear-gradient(to bottom, transparent, #1F1F1F)' }} />
         </div>
       )}
+
+      <div style={{ maxWidth: '48rem', margin: '0 auto', padding: '2rem 2rem 4rem' }}>
+
+        <Link href="/guides" style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#E85C2B', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginBottom: '2rem' }}>
+          ← Back to guides
+        </Link>
+
+        <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
+          {guide.category && (
+            <span style={{ fontSize: '0.7rem', backgroundColor: '#E85C2B', color: '#F7F5F2', padding: '3px 12px', borderRadius: '999px', fontFamily: 'Inter, sans-serif', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+              {guide.category}
+            </span>
+          )}
+          {guide.difficulty && (
+            <span style={{ fontSize: '0.7rem', backgroundColor: '#7A8F6A', color: '#F7F5F2', padding: '3px 12px', borderRadius: '999px', fontFamily: 'Inter, sans-serif', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+              {guide.difficulty}
+            </span>
+          )}
+        </div>
+
+        <h1 style={{ fontFamily: 'Oswald, sans-serif', fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 700, color: '#F7F5F2', letterSpacing: '0.02em', marginBottom: '1rem', lineHeight: 1.1 }}>
+          {guide.title}
+        </h1>
+
+        <div style={{ width: '3rem', height: '3px', backgroundColor: '#E85C2B', marginBottom: '1.5rem' }} />
+
+        {guide.summary && (
+          <p style={{ fontFamily: 'Inter, sans-serif', color: '#EAD7C5', fontSize: '1rem', lineHeight: 1.7, marginBottom: '2.5rem' }}>
+            {guide.summary}
+          </p>
+        )}
+
+        {guide.steps?.length > 0 && (
+          <div style={{ marginBottom: '2.5rem' }}>
+            <h2 style={{ fontFamily: 'Oswald, sans-serif', fontSize: '1.5rem', fontWeight: 600, color: '#EAD7C5', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '1rem' }}>
+              Steps
+            </h2>
+            <div style={{ width: '2rem', height: '2px', backgroundColor: '#E85C2B', marginBottom: '1.25rem' }} />
+            <ol style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+              {guide.steps.map((step: string, i: number) => (
+                <li key={i} style={{ display: 'flex', gap: '1.25rem', alignItems: 'flex-start' }}>
+                  <span style={{ fontFamily: 'Oswald, sans-serif', fontSize: '1.5rem', fontWeight: 700, color: '#E85C2B', flexShrink: 0, lineHeight: 1 }}>
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <p style={{ fontFamily: 'Inter, sans-serif', color: '#EAD7C5', fontSize: '0.95rem', lineHeight: 1.7, margin: 0 }}>
+                    {step}
+                  </p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        )}
+
+        {guide.videoUrl && (
+          <div style={{ marginBottom: '2.5rem' }}>
+            <h2 style={{ fontFamily: 'Oswald, sans-serif', fontSize: '1.5rem', fontWeight: 600, color: '#EAD7C5', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '1rem' }}>
+              Video
+            </h2>
+            <div style={{ width: '2rem', height: '2px', backgroundColor: '#E85C2B', marginBottom: '1.25rem' }} />
+            <iframe
+              src={guide.videoUrl}
+              style={{ width: '100%', aspectRatio: '16/9', borderRadius: '8px', border: 'none' }}
+              allowFullScreen
+            />
+          </div>
+        )}
+
+      </div>
     </main>
   )
 }

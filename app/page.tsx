@@ -20,37 +20,73 @@ export default async function Home() {
   const recipes = await getRecipes()
 
   return (
-    <main className="min-h-screen bg-gray-950 text-white p-8">
-      <h1 className="text-4xl font-bold mb-2">Free From Fire</h1>
-      <p className="text-gray-400 mb-8">Gluten free BBQ & Baking recipes</p>
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {recipes.map((recipe: any) => (
-          <Link key={recipe._id} href={`/recipe/${recipe.slug}`}>
-            <div className="bg-gray-800 rounded-xl p-6 hover:bg-gray-700 transition cursor-pointer">
-              {recipe.thumbnail && (
-                <img 
-                  src={recipe.thumbnail} 
-                  alt={recipe.title}
-                  className="w-full h-48 object-cover rounded-lg mb-4"
-                />
-              )}
-              <div className="flex gap-2 mb-2">
-                <span className="text-xs bg-orange-500 text-white px-2 py-1 rounded-full">
-                  {recipe.category}
-                </span>
-                {recipe.glutenFree && (
-                  <span className="text-xs bg-green-600 text-white px-2 py-1 rounded-full">
-                    GF
-                  </span>
+    <main style={{ backgroundColor: '#1F1F1F', minHeight: '100vh' }}>
+
+      <section style={{ backgroundColor: '#111', borderBottom: '1px solid #2a2a2a', padding: '5rem 2rem' }} className="text-center">
+        <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#7A8F6A', marginBottom: '1rem' }}>
+          Free from gluten. Cooked over fire.
+        </p>
+        <h1 style={{ fontFamily: 'Oswald, sans-serif', fontSize: 'clamp(3rem, 8vw, 6rem)', fontWeight: 700, color: '#F7F5F2', lineHeight: 1, marginBottom: '1.5rem', letterSpacing: '0.02em' }}>
+          FIRE-COOKED.<br />
+          <span style={{ color: '#E85C2B' }}>ALWAYS FREE</span><br />
+          FROM GLUTEN.
+        </h1>
+        <div style={{ width: '4rem', height: '3px', backgroundColor: '#E85C2B', margin: '0 auto 1.5rem' }}></div>
+        <p style={{ fontFamily: 'Inter, sans-serif', color: '#EAD7C5', maxWidth: '32rem', margin: '0 auto', lineHeight: 1.7, fontSize: '1rem' }}>
+          Real fire. Real family. No compromise on flavour — or safety.
+        </p>
+      </section>
+
+      <section style={{ padding: '4rem 2rem', maxWidth: '1200px', margin: '0 auto' }}>
+        <h2 style={{ fontFamily: 'Oswald, sans-serif', fontSize: '1.5rem', fontWeight: 600, color: '#EAD7C5', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '2rem' }}>
+          Latest Recipes
+        </h2>
+
+        {recipes.length === 0 && (
+          <p style={{ color: '#7A8F6A' }}>No recipes yet — check back soon!</p>
+        )}
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {recipes.map((recipe: any) => (
+            <Link key={recipe._id} href={`/recipe/${recipe.slug}`}>
+              <div style={{ backgroundColor: '#2a2020', border: '1px solid #3a2a2a', borderRadius: '12px', overflow: 'hidden', transition: 'border-color 0.2s, transform 0.2s' }}
+                className="hover:border-orange-600 hover:-translate-y-1 cursor-pointer">
+                {recipe.thumbnail ? (
+                  <img
+                    src={recipe.thumbnail}
+                    alt={recipe.title}
+                    style={{ width: '100%', height: '200px', objectFit: 'cover' }}
+                  />
+                ) : (
+                  <div style={{ width: '100%', height: '200px', backgroundColor: '#1a1212', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <span style={{ fontSize: '3rem' }}>🔥</span>
+                  </div>
                 )}
+                <div style={{ padding: '1.25rem' }}>
+                  <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.75rem', flexWrap: 'wrap' }}>
+                    {recipe.category && (
+                      <span style={{ fontSize: '0.7rem', backgroundColor: '#E85C2B', color: '#F7F5F2', padding: '2px 10px', borderRadius: '999px', fontFamily: 'Inter, sans-serif', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+                        {recipe.category}
+                      </span>
+                    )}
+                    {recipe.glutenFree && (
+                      <span style={{ fontSize: '0.7rem', backgroundColor: '#7A8F6A', color: '#F7F5F2', padding: '2px 10px', borderRadius: '999px', fontFamily: 'Inter, sans-serif', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+                        GF
+                      </span>
+                    )}
+                  </div>
+                  <h3 style={{ fontFamily: 'Oswald, sans-serif', fontSize: '1.25rem', fontWeight: 600, color: '#F7F5F2', marginBottom: '0.5rem', letterSpacing: '0.02em' }}>
+                    {recipe.title}
+                  </h3>
+                  <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: '#7A8F6A' }}>
+                    {recipe.cookTime && `${recipe.cookTime} mins`}{recipe.cookTime && recipe.fireMethod && ' · '}{recipe.fireMethod}
+                  </p>
+                </div>
               </div>
-              <h2 className="text-xl font-semibold mb-1">{recipe.title}</h2>
-              <p className="text-gray-400 text-sm">{recipe.cookTime} mins • {recipe.fireMethod}</p>
-            </div>
-          </Link>
-        ))}
-      </div>
+            </Link>
+          ))}
+        </div>
+      </section>
     </main>
   )
 }
