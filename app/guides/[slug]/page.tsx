@@ -4,6 +4,8 @@ import ReactMarkdown from 'react-markdown'
 import CookMode from '../../components/CookMode'
 import CollapsibleSection from '../../components/CollapsibleSection'
 
+export const revalidate = 60
+
 async function getGuide(slug: string) {
   return client.fetch(
     `*[_type == "guide" && slug.current == $slug][0]{

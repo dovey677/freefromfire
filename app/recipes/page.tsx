@@ -4,6 +4,8 @@ import { client } from '../../lib/sanity'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 
+export const revalidate = 60
+
 const CATEGORIES = ['All', 'BBQ', 'Bakes', 'Pizza', 'Sides']
 const ALLERGENS = ['Dairy', 'Eggs', 'Nuts', 'Soya', 'Sesame']
 

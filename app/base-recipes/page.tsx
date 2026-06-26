@@ -1,6 +1,8 @@
 import { client } from '../../lib/sanity'
 import Link from 'next/link'
 
+export const revalidate = 60
+
 async function getBaseRecipes() {
   return client.fetch(`*[_type == "baseRecipe"]{
     _id,

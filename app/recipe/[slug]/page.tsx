@@ -4,6 +4,8 @@ import IngredientList from '../../components/IngredientList'
 import CollapsibleSection from '../../components/CollapsibleSection'
 import CookMode from '../../components/CookMode'
 
+export const revalidate = 60
+
 async function getRecipe(slug: string) {
   return client.fetch(
     `*[_type == "recipe" && slug.current == $slug][0]{

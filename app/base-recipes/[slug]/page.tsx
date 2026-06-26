@@ -5,6 +5,7 @@ import CollapsibleSection from '../../components/CollapsibleSection'
 import ReactMarkdown from 'react-markdown'
 import CookMode from '../../components/CookMode'
 
+export const revalidate = 60
 
 async function getBaseRecipe(slug: string) {
   return client.fetch(
