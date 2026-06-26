@@ -22,7 +22,7 @@ export default {
       title: 'Category',
       type: 'string',
       options: {
-        list: ['BBQ', 'Baking'],
+        list: ['BBQ', 'Bakes & Pizza', 'Sides'],
       },
     },
     {
