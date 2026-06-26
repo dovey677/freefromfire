@@ -2,6 +2,9 @@ import { client } from '../../../lib/sanity'
 import Link from 'next/link'
 import BaseIngredientList from '../../components/BaseIngredientList'
 import CollapsibleSection from '../../components/CollapsibleSection'
+import ReactMarkdown from 'react-markdown'
+import CookMode from '../../components/CookMode'
+
 
 async function getBaseRecipe(slug: string) {
   return client.fetch(
@@ -14,6 +17,7 @@ async function getBaseRecipe(slug: string) {
       servesLabel,
       glutenFree,
       allergens,
+      equipment,
       ingredientGroups[] {
         groupTitle,
         ingredients[] {
@@ -54,6 +58,7 @@ export default async function BaseRecipePage({ params }: any) {
           ← Back to base recipes
         </Link>
 
+
         <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
           {baseRecipe.category && (
             <span style={{ fontSize: '0.7rem', backgroundColor: '#E85C2B', color: '#F7F5F2', padding: '3px 12px', borderRadius: '999px', fontFamily: 'Inter, sans-serif', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
@@ -74,9 +79,9 @@ export default async function BaseRecipePage({ params }: any) {
         <div style={{ width: '3rem', height: '3px', backgroundColor: '#E85C2B', marginBottom: '1.5rem' }} />
 
         {baseRecipe.summary && (
-          <p style={{ fontFamily: 'Inter, sans-serif', color: '#EAD7C5', fontSize: '1rem', lineHeight: 1.7, marginBottom: '2.5rem', whiteSpace: 'pre-line' }}>
-            {baseRecipe.summary}
-          </p>
+          <div style={{ fontFamily: 'Inter, sans-serif', color: '#EAD7C5', fontSize: '1rem', lineHeight: 1.7, marginBottom: '2.5rem' }}>
+            <ReactMarkdown>{String(baseRecipe.summary)}</ReactMarkdown>
+          </div>
         )}
 
         {baseRecipe.allergens?.length > 0 && (
@@ -94,6 +99,19 @@ export default async function BaseRecipePage({ params }: any) {
           </CollapsibleSection>
         )}
 
+        {baseRecipe.equipment?.length > 0 && (
+          <CollapsibleSection title="Equipment" accentColor="#7A8F6A" defaultOpen={false}>
+            <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              {baseRecipe.equipment.map((item: string, i: number) => (
+                <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', fontFamily: 'Inter, sans-serif', color: '#EAD7C5', fontSize: '0.95rem', lineHeight: 1.5, backgroundColor: '#252525', borderRadius: '6px', padding: '0.6rem 1rem' }}>
+                  <span style={{ color: '#7A8F6A', marginTop: '2px', flexShrink: 0 }}>⬡</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </CollapsibleSection>
+        )}
+
         {baseRecipe.ingredientGroups?.length > 0 && (
           <CollapsibleSection title="Ingredients" accentColor="#E85C2B" defaultOpen={true}>
             <BaseIngredientList
@@ -103,6 +121,13 @@ export default async function BaseRecipePage({ params }: any) {
             />
           </CollapsibleSection>
         )}
+
+         <div style={{ marginBottom: '0.5rem', paddingTop: '0.5rem', borderTop: '1px solid #2a2a2a', paddingBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+           <CookMode />
+           <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '1rem', color: '#EAD7C5', margin: 0 }}>
+             Prevent your screen from going dark as you follow along.
+           </p>
+         </div>
 
         {baseRecipe.steps?.length > 0 && (
           <CollapsibleSection title="Method" accentColor="#E85C2B" defaultOpen={true}>

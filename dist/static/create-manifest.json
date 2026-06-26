@@ -1,5 +1,5 @@
 {
-  "createdAt": "2026-06-26T16:35:59.047Z",
+  "createdAt": "2026-06-26T17:22:43.816Z",
   "studioVersion": "6.2.0",
   "version": 3,
   "workspaces": [
@@ -13,7 +13,7 @@
       },
       "name": "default",
       "projectId": "95tiozfj",
-      "schema": "5fab2636.create-schema.json",
+      "schema": "739bcfb2.create-schema.json",
       "title": "Free From Fire",
       "tools": "a1fd46b5.create-tools.json"
     }

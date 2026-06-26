@@ -2,6 +2,7 @@ import { client } from '../../../lib/sanity'
 import Link from 'next/link'
 import IngredientList from '../../components/IngredientList'
 import CollapsibleSection from '../../components/CollapsibleSection'
+import CookMode from '../../components/CookMode'
 
 async function getRecipe(slug: string) {
   return client.fetch(
@@ -55,6 +56,7 @@ export default async function RecipePage({ params }: any) {
         <Link href="/" style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#E85C2B', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginBottom: '2rem' }}>
           ← Back to recipes
         </Link>
+
 
         <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
           {recipe.category && (
@@ -135,6 +137,13 @@ export default async function RecipePage({ params }: any) {
             <IngredientList groups={recipe.ingredientGroups} />
           </CollapsibleSection>
         )}
+
+        <div style={{ marginBottom: '0.5rem', paddingTop: '0.5rem', borderTop: '1px solid #2a2a2a', paddingBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+          <CookMode />
+          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '1rem', color: '#EAD7C5', margin: 0 }}>
+            Prevent your screen from going dark as you follow along.
+          </p>
+        </div>
 
         {recipe.steps?.length > 0 && (
           <CollapsibleSection title="Method" accentColor="#E85C2B" defaultOpen={true}>

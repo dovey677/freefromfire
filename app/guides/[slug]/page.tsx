@@ -1,6 +1,8 @@
 import { client } from '../../../lib/sanity'
 import Link from 'next/link'
 import ReactMarkdown from 'react-markdown'
+import CookMode from '../../components/CookMode'
+import CollapsibleSection from '../../components/CollapsibleSection'
 
 async function getGuide(slug: string) {
   return client.fetch(
@@ -9,6 +11,7 @@ async function getGuide(slug: string) {
       title,
       category,
       difficulty,
+      equipment,
       summary,
       intro,
       steps,
@@ -43,6 +46,7 @@ export default async function GuidePage({ params }: any) {
           ← Back to guides
         </Link>
 
+
         <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
           {guide.category && (
             <span style={{ fontSize: '0.7rem', backgroundColor: '#E85C2B', color: '#F7F5F2', padding: '3px 12px', borderRadius: '999px', fontFamily: 'Inter, sans-serif', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
@@ -72,6 +76,26 @@ export default async function GuidePage({ params }: any) {
           <div style={{ fontFamily: 'Inter, sans-serif', color: '#EAD7C5', fontSize: '1rem', lineHeight: 1.7, marginBottom: '2.5rem' }}>
             <ReactMarkdown>{String(guide.intro)}</ReactMarkdown>
           </div>
+        )}
+
+        <div style={{ marginBottom: '0.5rem', paddingTop: '0.5rem', borderTop: '1px solid #2a2a2a', paddingBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+          <CookMode />
+          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '1rem', color: '#EAD7C5', margin: 0 }}>
+            Prevent your screen from going dark as you follow along.
+          </p>
+        </div>
+
+        {guide.equipment?.length > 0 && (
+          <CollapsibleSection title="Equipment" accentColor="#7A8F6A" defaultOpen={false}>
+            <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              {guide.equipment.map((item: string, i: number) => (
+                <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', fontFamily: 'Inter, sans-serif', color: '#EAD7C5', fontSize: '0.95rem', lineHeight: 1.5, backgroundColor: '#252525', borderRadius: '6px', padding: '0.6rem 1rem' }}>
+                  <span style={{ color: '#7A8F6A', marginTop: '2px', flexShrink: 0 }}>⬡</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </CollapsibleSection>
         )}
 
         {guide.steps?.length > 0 && (
