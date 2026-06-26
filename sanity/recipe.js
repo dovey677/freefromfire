@@ -64,6 +64,12 @@ export default {
       },
     },
     {
+      name: 'equipment',
+      title: 'Equipment',
+      type: 'array',
+      of: [{ type: 'string' }],
+    },
+    {
       name: 'ingredientGroups',
       title: 'Ingredient Groups',
       type: 'array',

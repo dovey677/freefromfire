@@ -23,10 +23,7 @@ export default function IngredientList({ groups }: { groups: IngredientGroup[] }
 
   return (
     <div style={{ marginBottom: '2.5rem' }}>
-      <h2 style={{ fontFamily: 'Oswald, sans-serif', fontSize: '1.5rem', fontWeight: 600, color: '#EAD7C5', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '1rem' }}>
-        Ingredients
-      </h2>
-      <div style={{ width: '2rem', height: '2px', backgroundColor: '#E85C2B', marginBottom: '1.25rem' }} />
+
 
       <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem', backgroundColor: '#2a2020', border: '1px solid #3a2a2a', borderRadius: '8px', padding: '0.75rem 1.25rem' }}>
         <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#7A8F6A' }}>
