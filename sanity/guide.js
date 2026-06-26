@@ -34,6 +34,12 @@ export default {
       },
     },
     {
+      name: 'equipment',
+      title: 'Equipment',
+      type: 'array',
+      of: [{ type: 'string' }],
+    },
+    {
       name: 'thumbnail',
       title: 'Thumbnail Image',
       type: 'image',
