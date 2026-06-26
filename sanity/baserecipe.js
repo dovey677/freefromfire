@@ -39,6 +39,16 @@ export default {
       type: 'text',
     },
     {
+      name: 'servesCount',
+      title: 'Makes (number)',
+      type: 'number',
+    },
+    {
+      name: 'servesLabel',
+      title: 'Makes (label, e.g. "pizza bases", "300g dough balls")',
+      type: 'string',
+    },
+    {
       name: 'glutenFree',
       title: 'Gluten Free',
       type: 'boolean',
@@ -54,10 +64,60 @@ export default {
       },
     },
     {
-      name: 'ingredients',
-      title: 'Ingredients',
+      name: 'ingredientGroups',
+      title: 'Ingredient Groups',
       type: 'array',
-      of: [{ type: 'string' }],
+      of: [
+        {
+          type: 'object',
+          fields: [
+            {
+              name: 'groupTitle',
+              title: 'Group Title (e.g. "For the poolish", "For the dough")',
+              type: 'string',
+            },
+            {
+              name: 'ingredients',
+              title: 'Ingredients',
+              type: 'array',
+              of: [
+                {
+                  type: 'object',
+                  fields: [
+                    {
+                      name: 'quantity',
+                      title: 'Quantity',
+                      type: 'number',
+                    },
+                    {
+                      name: 'unit',
+                      title: 'Unit (e.g. g, ml, tsp — leave blank for items like "eggs")',
+                      type: 'string',
+                    },
+                    {
+                      name: 'name',
+                      title: 'Ingredient Name',
+                      type: 'string',
+                    },
+                  ],
+                  preview: {
+                    select: {
+                      quantity: 'quantity',
+                      unit: 'unit',
+                      name: 'name',
+                    },
+                    prepare({ quantity, unit, name }) {
+                      return {
+                        title: `${quantity || ''} ${unit || ''} ${name || ''}`.trim(),
+                      }
+                    },
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      ],
     },
     {
       name: 'steps',

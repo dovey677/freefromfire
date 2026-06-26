@@ -1,5 +1,7 @@
 import { client } from '../../../lib/sanity'
 import Link from 'next/link'
+import BaseIngredientList from '../../components/BaseIngredientList'
+import CollapsibleSection from '../../components/CollapsibleSection'
 
 async function getBaseRecipe(slug: string) {
   return client.fetch(
@@ -8,9 +10,18 @@ async function getBaseRecipe(slug: string) {
       title,
       category,
       summary,
+      servesCount,
+      servesLabel,
       glutenFree,
       allergens,
-      ingredients,
+      ingredientGroups[] {
+        groupTitle,
+        ingredients[] {
+          quantity,
+          unit,
+          name
+        }
+      },
       steps,
       videoUrl,
       "thumbnail": thumbnail.asset->url
@@ -63,60 +74,51 @@ export default async function BaseRecipePage({ params }: any) {
         <div style={{ width: '3rem', height: '3px', backgroundColor: '#E85C2B', marginBottom: '1.5rem' }} />
 
         {baseRecipe.summary && (
-          <p style={{ fontFamily: 'Inter, sans-serif', color: '#EAD7C5', fontSize: '1rem', lineHeight: 1.7, marginBottom: '2.5rem' }}>
+          <p style={{ fontFamily: 'Inter, sans-serif', color: '#EAD7C5', fontSize: '1rem', lineHeight: 1.7, marginBottom: '2.5rem', whiteSpace: 'pre-line' }}>
             {baseRecipe.summary}
           </p>
         )}
 
         {baseRecipe.allergens?.length > 0 && (
-          <div style={{ backgroundColor: '#2a2020', border: '1px solid #3a2a2a', borderRadius: '8px', padding: '1rem 1.25rem', marginBottom: '2.5rem' }}>
-            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.7rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#7A8F6A', marginBottom: '0.75rem' }}>Contains</p>
-            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-              {baseRecipe.allergens.map((allergen: string) => (
-                <span key={allergen} style={{ fontSize: '0.75rem', backgroundColor: '#B23A1B', color: '#F7F5F2', padding: '3px 12px', borderRadius: '999px', fontFamily: 'Inter, sans-serif' }}>
-                  {allergen}
-                </span>
-              ))}
+          <CollapsibleSection title="Allergens" accentColor="#B23A1B" defaultOpen={false}>
+            <div style={{ backgroundColor: '#2a2020', border: '1px solid #3a2a2a', borderRadius: '8px', padding: '1rem 1.25rem' }}>
+              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.7rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#7A8F6A', marginBottom: '0.75rem' }}>Contains</p>
+              <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                {baseRecipe.allergens.map((allergen: string) => (
+                  <span key={allergen} style={{ fontSize: '0.75rem', backgroundColor: '#B23A1B', color: '#F7F5F2', padding: '3px 12px', borderRadius: '999px', fontFamily: 'Inter, sans-serif' }}>
+                    {allergen}
+                  </span>
+                ))}
+              </div>
             </div>
-          </div>
+          </CollapsibleSection>
         )}
 
-        {baseRecipe.ingredients?.length > 0 && (
-          <div style={{ marginBottom: '2.5rem' }}>
-            <h2 style={{ fontFamily: 'Oswald, sans-serif', fontSize: '1.5rem', fontWeight: 600, color: '#EAD7C5', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '1rem' }}>
-              Ingredients
-            </h2>
-            <div style={{ width: '2rem', height: '2px', backgroundColor: '#E85C2B', marginBottom: '1.25rem' }} />
-            <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-              {baseRecipe.ingredients.map((ingredient: string, i: number) => (
-                <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', fontFamily: 'Inter, sans-serif', color: '#EAD7C5', fontSize: '0.95rem', lineHeight: 1.5 }}>
-                  <span style={{ color: '#E85C2B', marginTop: '2px', flexShrink: 0 }}>—</span>
-                  {ingredient}
-                </li>
-              ))}
-            </ul>
-          </div>
+        {baseRecipe.ingredientGroups?.length > 0 && (
+          <CollapsibleSection title="Ingredients" accentColor="#E85C2B" defaultOpen={true}>
+            <BaseIngredientList
+              groups={baseRecipe.ingredientGroups}
+              servesCount={baseRecipe.servesCount}
+              servesLabel={baseRecipe.servesLabel}
+            />
+          </CollapsibleSection>
         )}
 
         {baseRecipe.steps?.length > 0 && (
-          <div style={{ marginBottom: '2.5rem' }}>
-            <h2 style={{ fontFamily: 'Oswald, sans-serif', fontSize: '1.5rem', fontWeight: 600, color: '#EAD7C5', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '1rem' }}>
-              Method
-            </h2>
-            <div style={{ width: '2rem', height: '2px', backgroundColor: '#E85C2B', marginBottom: '1.25rem' }} />
-            <ol style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+          <CollapsibleSection title="Method" accentColor="#E85C2B" defaultOpen={true}>
+            <ol style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '0' }}>
               {baseRecipe.steps.map((step: string, i: number) => (
-                <li key={i} style={{ display: 'flex', gap: '1.25rem', alignItems: 'flex-start' }}>
+                <li key={i} style={{ display: 'flex', gap: '1.25rem', alignItems: 'flex-start', padding: '1.25rem', backgroundColor: i % 2 === 0 ? '#252525' : '#2a2020', borderRadius: '6px', marginBottom: '2px' }}>
                   <span style={{ fontFamily: 'Oswald, sans-serif', fontSize: '1.5rem', fontWeight: 700, color: '#E85C2B', flexShrink: 0, lineHeight: 1 }}>
                     {String(i + 1).padStart(2, '0')}
                   </span>
-                  <p style={{ fontFamily: 'Inter, sans-serif', color: '#EAD7C5', fontSize: '0.95rem', lineHeight: 1.7, margin: 0 }}>
+                  <p style={{ fontFamily: 'Inter, sans-serif', color: '#EAD7C5', fontSize: '0.95rem', lineHeight: 1.7, margin: 0, whiteSpace: 'pre-line' }}>
                     {step}
                   </p>
                 </li>
               ))}
             </ol>
-          </div>
+          </CollapsibleSection>
         )}
 
         {baseRecipe.videoUrl && (
