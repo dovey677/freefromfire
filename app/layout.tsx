@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   description: 'Gluten free BBQ & Baking recipes. Free from limits. Forged by fire.',
   icons: {
     icon: '/favicon.ico',
-    apple: '/apple-touch-icon.png',
+    apple: '/apple-touch-icon-180x180.png',
   },
 }
 
