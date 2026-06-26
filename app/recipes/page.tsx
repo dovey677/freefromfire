@@ -27,7 +27,7 @@ export default function RecipesPage() {
   }, [])
 
   const filtered = recipes.filter((recipe) => {
-    const matchesCategory = activeCategory === 'All' || recipe.category === activeCategory
+    const matchesCategory = activeCategory === 'All' || recipe.category?.toLowerCase() === activeCategory.toLowerCase()
     const matchesSearch = recipe.title?.toLowerCase().includes(search.toLowerCase())
     return matchesCategory && matchesSearch
   })
