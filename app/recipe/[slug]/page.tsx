@@ -101,12 +101,9 @@ export default async function RecipePage({ params }: any) {
             </div>
           )}
         </div>
+
         {recipe.equipment?.length > 0 && (
-          <div style={{ marginBottom: '2.5rem' }}>
-            <h2 style={{ fontFamily: 'Oswald, sans-serif', fontSize: '1.5rem', fontWeight: 600, color: '#EAD7C5', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '1rem' }}>
-              Equipment
-            </h2>
-            <div style={{ width: '2rem', height: '2px', backgroundColor: '#7A8F6A', marginBottom: '1.25rem' }} />
+          <CollapsibleSection title="Equipment" accentColor="#7A8F6A" defaultOpen={false}>
             <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
               {recipe.equipment.map((item: string, i: number) => (
                 <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', fontFamily: 'Inter, sans-serif', color: '#EAD7C5', fontSize: '0.95rem', lineHeight: 1.5, backgroundColor: '#252525', borderRadius: '6px', padding: '0.6rem 1rem' }}>
@@ -115,8 +112,9 @@ export default async function RecipePage({ params }: any) {
                 </li>
               ))}
             </ul>
-          </div>
+          </CollapsibleSection>
         )}
+
         {recipe.allergens?.length > 0 && (
           <CollapsibleSection title="Allergens" accentColor="#B23A1B" defaultOpen={false}>
             <div style={{ backgroundColor: '#2a2020', border: '1px solid #3a2a2a', borderRadius: '8px', padding: '1rem 1.25rem' }}>
@@ -129,19 +127,6 @@ export default async function RecipePage({ params }: any) {
                 ))}
               </div>
             </div>
-          </CollapsibleSection>
-        )}
-
-        {recipe.equipment?.length > 0 && (
-          <CollapsibleSection title="Equipment" accentColor="#7A8F6A" defaultOpen={false}>
-            <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-              {recipe.equipment.map((item: string, i: number) => (
-                <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', fontFamily: 'Inter, sans-serif', color: '#EAD7C5', fontSize: '0.95rem', lineHeight: 1.5, backgroundColor: '#252525', borderRadius: '6px', padding: '0.6rem 1rem' }}>
-                  <span style={{ color: '#7A8F6A', marginTop: '2px', flexShrink: 0 }}>⬡</span>
-                  {item}
-                </li>
-              ))}
-            </ul>
           </CollapsibleSection>
         )}
 
@@ -167,6 +152,7 @@ export default async function RecipePage({ params }: any) {
             </ol>
           </CollapsibleSection>
         )}
+
         {recipe.videoUrl && (
           <div style={{ marginBottom: '2.5rem' }}>
             <h2 style={{ fontFamily: 'Oswald, sans-serif', fontSize: '1.5rem', fontWeight: 600, color: '#EAD7C5', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '1rem' }}>
