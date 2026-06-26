@@ -4,7 +4,11 @@ import Nav from './components/Nav'
 
 export const metadata: Metadata = {
   title: 'Free From Fire',
-  description: 'Gluten free BBQ & Baking recipes',
+  description: 'Gluten free BBQ & Baking recipes. Free from limits. Forged by fire.',
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
+  },
 }
 
 export default function RootLayout({
