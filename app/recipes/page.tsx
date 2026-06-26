@@ -5,11 +5,13 @@ import Link from 'next/link'
 import { useState, useEffect } from 'react'
 
 const CATEGORIES = ['All', 'BBQ', 'Bakes', 'Pizza', 'Sides']
+const ALLERGENS = ['Dairy', 'Eggs', 'Nuts', 'Soya', 'Sesame']
 
 export default function RecipesPage() {
   const [recipes, setRecipes] = useState<any[]>([])
   const [search, setSearch] = useState('')
   const [activeCategory, setActiveCategory] = useState('All')
+  const [excludedAllergens, setExcludedAllergens] = useState<string[]>([])
 
   useEffect(() => {
     client.fetch(`*[_type == "recipe"] | order(_createdAt desc) {
@@ -26,10 +28,21 @@ export default function RecipesPage() {
     }`).then(setRecipes)
   }, [])
 
+  function toggleAllergen(allergen: string) {
+    setExcludedAllergens(prev =>
+      prev.includes(allergen)
+        ? prev.filter(a => a !== allergen)
+        : [...prev, allergen]
+    )
+  }
+
   const filtered = recipes.filter((recipe) => {
     const matchesCategory = activeCategory === 'All' || recipe.category?.toLowerCase() === activeCategory.toLowerCase()
     const matchesSearch = recipe.title?.toLowerCase().includes(search.toLowerCase())
-    return matchesCategory && matchesSearch
+    const matchesAllergens = excludedAllergens.every(
+      allergen => !recipe.allergens?.map((a: string) => a.toLowerCase()).includes(allergen.toLowerCase())
+    )
+    return matchesCategory && matchesSearch && matchesAllergens
   })
 
   return (
@@ -51,6 +64,7 @@ export default function RecipesPage() {
       </section>
 
       <section style={{ padding: '2rem 2rem 0', maxWidth: '1200px', margin: '0 auto' }}>
+
         <input
           type="text"
           placeholder="Search recipes..."
@@ -71,7 +85,10 @@ export default function RecipesPage() {
           }}
         />
 
-        <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '2rem' }}>
+        <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.7rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#7A8F6A', marginBottom: '0.75rem' }}>
+          Category
+        </p>
+        <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '1.5rem' }}>
           {CATEGORIES.map((cat) => (
             <button
               key={cat}
@@ -95,12 +112,41 @@ export default function RecipesPage() {
             </button>
           ))}
         </div>
+
+        <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.7rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#7A8F6A', marginBottom: '0.75rem' }}>
+          Exclude Allergens
+        </p>
+        <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '2rem' }}>
+          {ALLERGENS.map((allergen) => (
+            <button
+              key={allergen}
+              onClick={() => toggleAllergen(allergen)}
+              style={{
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '0.75rem',
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                padding: '0.5rem 1.25rem',
+                borderRadius: '999px',
+                border: '1px solid',
+                cursor: 'pointer',
+                transition: 'all 0.2s',
+                backgroundColor: excludedAllergens.includes(allergen) ? '#B23A1B' : 'transparent',
+                borderColor: excludedAllergens.includes(allergen) ? '#B23A1B' : '#3a2a2a',
+                color: excludedAllergens.includes(allergen) ? '#F7F5F2' : '#7A8F6A',
+              }}
+            >
+              {excludedAllergens.includes(allergen) ? `✕ ${allergen}` : allergen}
+            </button>
+          ))}
+        </div>
+
       </section>
 
       <section style={{ padding: '0 2rem 4rem', maxWidth: '1200px', margin: '0 auto' }}>
         {filtered.length === 0 && (
           <p style={{ color: '#7A8F6A', fontFamily: 'Inter, sans-serif' }}>
-            No recipes found — try a different search or category.
+            No recipes found — try a different search or filter.
           </p>
         )}
 
@@ -136,9 +182,19 @@ export default function RecipesPage() {
                   <h3 style={{ fontFamily: 'Oswald, sans-serif', fontSize: '1.25rem', fontWeight: 600, color: '#F7F5F2', marginBottom: '0.5rem', letterSpacing: '0.02em' }}>
                     {recipe.title}
                   </h3>
-                  <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: '#7A8F6A' }}>
+                  <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: '#7A8F6A', marginBottom: '0.75rem' }}>
                     {recipe.cookTime && `${recipe.cookTime} mins`}{recipe.cookTime && recipe.fireMethod && ' · '}{recipe.fireMethod}
                   </p>
+                  {recipe.allergens?.length > 0 && (
+                    <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap', alignItems: 'center' }}>
+                      <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.65rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#B23A1B' }}>Contains:</span>
+                      {recipe.allergens.map((allergen: string) => (
+                        <span key={allergen} style={{ fontSize: '0.65rem', backgroundColor: '#2a1515', border: '1px solid #B23A1B', color: '#EAD7C5', padding: '1px 8px', borderRadius: '999px', fontFamily: 'Inter, sans-serif' }}>
+                          {allergen}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
             </Link>
