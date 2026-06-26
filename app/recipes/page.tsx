@@ -12,6 +12,7 @@ export default function RecipesPage() {
   const [search, setSearch] = useState('')
   const [activeCategory, setActiveCategory] = useState('All')
   const [excludedAllergens, setExcludedAllergens] = useState<string[]>([])
+  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
     client.fetch(`*[_type == "recipe"] | order(_createdAt desc) {
@@ -26,6 +27,11 @@ export default function RecipesPage() {
       "slug": slug.current,
       "thumbnail": thumbnail.asset->url
     }`).then(setRecipes)
+
+    const checkMobile = () => setIsMobile(window.innerWidth < 640)
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
   }, [])
 
   function toggleAllergen(allergen: string) {
@@ -150,56 +156,101 @@ export default function RecipesPage() {
           </p>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filtered.map((recipe: any) => (
-            <Link key={recipe._id} href={`/recipe/${recipe.slug}`}>
-              <div style={{ backgroundColor: '#2a2020', border: '1px solid #3a2a2a', borderRadius: '12px', overflow: 'hidden', transition: 'border-color 0.2s, transform 0.2s' }}
-                className="hover:border-orange-600 hover:-translate-y-1 cursor-pointer">
-                {recipe.thumbnail ? (
-                  <img
-                    src={recipe.thumbnail}
-                    alt={recipe.title}
-                    style={{ width: '100%', height: '200px', objectFit: 'cover' }}
-                  />
-                ) : (
-                  <div style={{ width: '100%', height: '200px', backgroundColor: '#1a1212', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <span style={{ fontSize: '3rem' }}>🔥</span>
-                  </div>
-                )}
-                <div style={{ padding: '1.25rem' }}>
-                  <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.75rem', flexWrap: 'wrap' }}>
-                    {recipe.category && (
-                      <span style={{ fontSize: '0.7rem', backgroundColor: '#E85C2B', color: '#F7F5F2', padding: '2px 10px', borderRadius: '999px', fontFamily: 'Inter, sans-serif', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
-                        {recipe.category}
-                      </span>
-                    )}
-                    {recipe.glutenFree && (
-                      <span style={{ fontSize: '0.7rem', backgroundColor: '#7A8F6A', color: '#F7F5F2', padding: '2px 10px', borderRadius: '999px', fontFamily: 'Inter, sans-serif', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
-                        GF
-                      </span>
-                    )}
-                  </div>
-                  <h3 style={{ fontFamily: 'Oswald, sans-serif', fontSize: '1.25rem', fontWeight: 600, color: '#F7F5F2', marginBottom: '0.5rem', letterSpacing: '0.02em' }}>
-                    {recipe.title}
-                  </h3>
-                  <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: '#7A8F6A', marginBottom: '0.75rem' }}>
-                    {recipe.cookTime && `${recipe.cookTime} mins`}{recipe.cookTime && recipe.fireMethod && ' · '}{recipe.fireMethod}
-                  </p>
-                  {recipe.allergens?.length > 0 && (
-                    <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap', alignItems: 'center' }}>
-                      <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.65rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#B23A1B' }}>Contains:</span>
-                      {recipe.allergens.map((allergen: string) => (
-                        <span key={allergen} style={{ fontSize: '0.65rem', backgroundColor: '#2a1515', border: '1px solid #B23A1B', color: '#EAD7C5', padding: '1px 8px', borderRadius: '999px', fontFamily: 'Inter, sans-serif' }}>
-                          {allergen}
-                        </span>
-                      ))}
+        {isMobile ? (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            {filtered.map((recipe: any) => (
+              <Link key={recipe._id} href={`/recipe/${recipe.slug}`} style={{ textDecoration: 'none' }}>
+                <div style={{ backgroundColor: '#2a2020', border: '1px solid #3a2a2a', borderRadius: '12px', overflow: 'hidden', transition: 'border-color 0.2s' }}
+                  className="hover:border-orange-600 cursor-pointer">
+                  {recipe.thumbnail ? (
+                    <img src={recipe.thumbnail} alt={recipe.title} style={{ width: '100%', height: '200px', objectFit: 'cover' }} />
+                  ) : (
+                    <div style={{ width: '100%', height: '200px', backgroundColor: '#1a1212', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <span style={{ fontSize: '3rem' }}>🔥</span>
                     </div>
                   )}
+                  <div style={{ padding: '1.25rem' }}>
+                    <h3 style={{ fontFamily: 'Oswald, sans-serif', fontSize: '1.25rem', fontWeight: 600, color: '#F7F5F2', marginBottom: '0.5rem', letterSpacing: '0.02em' }}>
+                      {recipe.title}
+                    </h3>
+                    <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.75rem', flexWrap: 'wrap' }}>
+                      {recipe.category && (
+                        <span style={{ fontSize: '0.7rem', backgroundColor: '#E85C2B', color: '#F7F5F2', padding: '2px 10px', borderRadius: '999px', fontFamily: 'Inter, sans-serif', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+                          {recipe.category}
+                        </span>
+                      )}
+                      {recipe.glutenFree && (
+                        <span style={{ fontSize: '0.7rem', backgroundColor: '#7A8F6A', color: '#F7F5F2', padding: '2px 10px', borderRadius: '999px', fontFamily: 'Inter, sans-serif', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+                          GF
+                        </span>
+                      )}
+                    </div>
+                    <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: '#7A8F6A', marginBottom: '0.75rem' }}>
+                      {recipe.cookTime && `${recipe.cookTime} mins`}{recipe.cookTime && recipe.fireMethod && ' · '}{recipe.fireMethod}
+                    </p>
+                    {recipe.allergens?.length > 0 && (
+                      <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap', alignItems: 'center' }}>
+                        <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.65rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#B23A1B' }}>Contains:</span>
+                        {recipe.allergens.map((allergen: string) => (
+                          <span key={allergen} style={{ fontSize: '0.65rem', backgroundColor: '#2a1515', border: '1px solid #B23A1B', color: '#EAD7C5', padding: '1px 8px', borderRadius: '999px', fontFamily: 'Inter, sans-serif' }}>
+                            {allergen}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </Link>
-          ))}
-        </div>
+              </Link>
+            ))}
+          </div>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            {filtered.map((recipe: any) => (
+              <Link key={recipe._id} href={`/recipe/${recipe.slug}`} style={{ textDecoration: 'none' }}>
+                <div style={{ backgroundColor: '#2a2020', border: '1px solid #3a2a2a', borderRadius: '12px', overflow: 'hidden', transition: 'border-color 0.2s, transform 0.2s', display: 'flex', flexDirection: 'row', alignItems: 'stretch', minHeight: '260px' }}
+                  className="hover:border-orange-600 hover:-translate-y-1 cursor-pointer">
+                {recipe.thumbnail ? (
+                    <img src={recipe.thumbnail} alt={recipe.title} style={{ width: '260px', minWidth: '260px', height: '100%', objectFit: 'cover', flexShrink: 0 }} />
+                  ) : (
+                    <div style={{ width: '260px', minWidth: '260px', height: '100%', backgroundColor: '#1a1212', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                      <span style={{ fontSize: '3rem' }}>🔥</span>
+                    </div>
+                  )}
+                    <div style={{ padding: '0 1.75rem', display: 'flex', flexDirection: 'column', justifyContent: 'center', flex: 1, height: '260px' }}>
+                    <h3 style={{ fontFamily: 'Oswald, sans-serif', fontSize: '1.75rem', fontWeight: 600, color: '#F7F5F2', margin: '0 0 0.75rem 0', letterSpacing: '0.02em' }}>
+                      {recipe.title}
+                    </h3>
+                    <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.75rem', flexWrap: 'wrap' }}>
+                      {recipe.category && (
+                        <span style={{ fontSize: '0.8rem', backgroundColor: '#E85C2B', color: '#F7F5F2', padding: '3px 12px', borderRadius: '999px', fontFamily: 'Inter, sans-serif', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+                          {recipe.category}
+                        </span>
+                      )}
+                      {recipe.glutenFree && (
+                        <span style={{ fontSize: '0.8rem', backgroundColor: '#7A8F6A', color: '#F7F5F2', padding: '3px 12px', borderRadius: '999px', fontFamily: 'Inter, sans-serif', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+                          GF
+                        </span>
+                      )}
+                    </div>
+                    <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.95rem', color: '#7A8F6A', marginBottom: '0.75rem' }}>
+                      {recipe.cookTime && `${recipe.cookTime} mins`}{recipe.cookTime && recipe.fireMethod && ' · '}{recipe.fireMethod}
+                    </p>
+                    {recipe.allergens?.length > 0 && (
+                      <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap', alignItems: 'center' }}>
+                        <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#B23A1B' }}>Contains:</span>
+                        {recipe.allergens.map((allergen: string) => (
+                          <span key={allergen} style={{ fontSize: '0.75rem', backgroundColor: '#2a1515', border: '1px solid #B23A1B', color: '#EAD7C5', padding: '2px 10px', borderRadius: '999px', fontFamily: 'Inter, sans-serif' }}>
+                            {allergen}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
       </section>
 
     </main>

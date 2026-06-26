@@ -10,6 +10,7 @@ async function getGuide(slug: string) {
       category,
       difficulty,
       summary,
+      intro,
       steps,
       videoUrl,
       "thumbnail": thumbnail.asset->url
@@ -63,7 +64,13 @@ export default async function GuidePage({ params }: any) {
 
         {guide.summary && (
           <div style={{ fontFamily: 'Inter, sans-serif', color: '#EAD7C5', fontSize: '1rem', lineHeight: 1.7, marginBottom: '2.5rem' }}>
-            <ReactMarkdown>{guide.summary}</ReactMarkdown>
+            <ReactMarkdown>{String(guide.summary)}</ReactMarkdown>
+          </div>
+        )}
+
+        {guide.intro && (
+          <div style={{ fontFamily: 'Inter, sans-serif', color: '#EAD7C5', fontSize: '1rem', lineHeight: 1.7, marginBottom: '2.5rem' }}>
+            <ReactMarkdown>{String(guide.intro)}</ReactMarkdown>
           </div>
         )}
 
@@ -80,7 +87,7 @@ export default async function GuidePage({ params }: any) {
                     {String(i + 1).padStart(2, '0')}
                   </span>
                   <div style={{ fontFamily: 'Inter, sans-serif', color: '#EAD7C5', fontSize: '0.95rem', lineHeight: 1.7, margin: 0 }}>
-                    <ReactMarkdown>{step}</ReactMarkdown>
+                    <ReactMarkdown>{String(step)}</ReactMarkdown>
                   </div>
                 </li>
               ))}
