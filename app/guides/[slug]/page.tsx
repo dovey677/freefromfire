@@ -1,5 +1,6 @@
 import { client } from '../../../lib/sanity'
 import Link from 'next/link'
+import ReactMarkdown from 'react-markdown'
 
 async function getGuide(slug: string) {
   return client.fetch(
@@ -61,9 +62,9 @@ export default async function GuidePage({ params }: any) {
         <div style={{ width: '3rem', height: '3px', backgroundColor: '#E85C2B', marginBottom: '1.5rem' }} />
 
         {guide.summary && (
-          <p style={{ fontFamily: 'Inter, sans-serif', color: '#EAD7C5', fontSize: '1rem', lineHeight: 1.7, marginBottom: '2.5rem' }}>
-            {guide.summary}
-          </p>
+          <div style={{ fontFamily: 'Inter, sans-serif', color: '#EAD7C5', fontSize: '1rem', lineHeight: 1.7, marginBottom: '2.5rem' }}>
+            <ReactMarkdown>{guide.summary}</ReactMarkdown>
+          </div>
         )}
 
         {guide.steps?.length > 0 && (
@@ -78,9 +79,9 @@ export default async function GuidePage({ params }: any) {
                   <span style={{ fontFamily: 'Oswald, sans-serif', fontSize: '1.5rem', fontWeight: 700, color: '#E85C2B', flexShrink: 0, lineHeight: 1 }}>
                     {String(i + 1).padStart(2, '0')}
                   </span>
-                  <p style={{ fontFamily: 'Inter, sans-serif', color: '#EAD7C5', fontSize: '0.95rem', lineHeight: 1.7, margin: 0, whiteSpace: 'pre-line' }}>
-                    {step}
-                  </p>
+                  <div style={{ fontFamily: 'Inter, sans-serif', color: '#EAD7C5', fontSize: '0.95rem', lineHeight: 1.7, margin: 0 }}>
+                    <ReactMarkdown>{step}</ReactMarkdown>
+                  </div>
                 </li>
               ))}
             </ol>
