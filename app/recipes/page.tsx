@@ -4,7 +4,7 @@ import { client } from '../../lib/sanity'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 
-const CATEGORIES = ['All', 'BBQ', 'Bakes & Pizza', 'Sides']
+const CATEGORIES = ['All', 'BBQ', 'Bakes', 'Pizza', 'Sides']
 
 export default function RecipesPage() {
   const [recipes, setRecipes] = useState<any[]>([])
