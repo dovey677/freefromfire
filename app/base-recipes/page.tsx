@@ -118,7 +118,7 @@ export default function BaseRecipesPage() {
                 <div style={{ backgroundColor: '#2a2020', border: '1px solid #3a2a2a', borderRadius: '12px', overflow: 'hidden', transition: 'border-color 0.2s' }}
                   className="hover:border-orange-600 cursor-pointer">
                   {baseRecipe.thumbnail ? (
-                    <img src={baseRecipe.thumbnail} alt={baseRecipe.title} style={{ width: '100%', height: '200px', objectFit: 'cover' }} />
+                    <img src={baseRecipe.thumbnail} alt={baseRecipe.title} style={{ width: '100%', height: '260px', objectFit: 'cover' }} />
                   ) : (
                     <div style={{ width: '100%', height: '200px', backgroundColor: '#1a1212', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                       <span style={{ fontSize: '3rem' }}>📖</span>
