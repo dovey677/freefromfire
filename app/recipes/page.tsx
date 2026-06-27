@@ -164,13 +164,13 @@ export default function RecipesPage() {
                 <div style={{ backgroundColor: '#2a2020', border: '1px solid #3a2a2a', borderRadius: '12px', overflow: 'hidden', transition: 'border-color 0.2s' }}
                   className="hover:border-orange-600 cursor-pointer">
                   {recipe.thumbnail ? (
-                    <img src={recipe.thumbnail} alt={recipe.title} style={{ width: '100%', height: '200px', objectFit: 'cover' }} />
+                    <img src={recipe.thumbnail} alt={recipe.title} style={{ width: '100%', height: '260px', objectFit: 'cover' }} />
                   ) : (
                     <div style={{ width: '100%', height: '200px', backgroundColor: '#1a1212', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                       <span style={{ fontSize: '3rem' }}>🔥</span>
                     </div>
                   )}
-                  <div style={{ padding: '1.25rem' }}>
+                  <div style={{ padding: '1rem' }}>
                     <h3 style={{ fontFamily: 'Oswald, sans-serif', fontSize: '1.25rem', fontWeight: 600, color: '#F7F5F2', marginBottom: '0.5rem', letterSpacing: '0.02em' }}>
                       {recipe.title}
                     </h3>
