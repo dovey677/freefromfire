@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useState, useEffect } from 'react'
 
 const CATEGORIES = ['All', 'BBQ', 'Bakes', 'Pizza', 'Sides']
-const ALLERGENS = ['Dairy', 'Eggs', 'Nuts', 'Soya', 'Sesame']
+const ALLERGENS = ['Dairy', 'Eggs', 'Nuts', 'Soya', 'Sesame', 'Wheat']
 
 export default function RecipesPage() {
   const [recipes, setRecipes] = useState<any[]>([])
@@ -190,7 +190,7 @@ export default function RecipesPage() {
                       {recipe.cookTime && `${recipe.cookTime} mins`}{recipe.cookTime && recipe.fireMethod && ' · '}{recipe.fireMethod}
                     </p>
                     {recipe.summary && (
-                      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: '#7A8F6A', lineHeight: 1.5, margin: '0.5rem 0 0 0', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: '#7A8F6A', lineHeight: 1.5, margin: '0.5rem 0 0.5rem 0', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                         {recipe.summary}
                       </p>
                     )}

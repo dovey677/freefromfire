@@ -48,7 +48,7 @@ export default {
       type: 'array',
       of: [{ type: 'string' }],
       options: {
-        list: ['Dairy', 'Eggs', 'Nuts', 'Soya', 'Sesame'],
+      list: ['Dairy', 'Eggs', 'Nuts', 'Soya', 'Sesame', 'Wheat'],
       },
     },
     {
