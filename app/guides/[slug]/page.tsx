@@ -121,11 +121,11 @@ export default async function GuidePage({ params }: any) {
                       <ReactMarkdown remarkPlugins={[remarkGfm]}>{String(step.text)}</ReactMarkdown>
                     </div>
                   </div>
-                  {step.image && (
+                  {step.image?.asset && (
                     <img
-                      src={urlFor(step.image).width(800).fit('crop').url()}
+                      src={urlFor(step.image).width(800).height(800).fit('crop').url()}
                       alt={`Step ${i + 1}`}
-                      style={{ width: '100%', borderRadius: '8px', marginTop: '1rem', objectFit: 'cover' }}
+                      style={{ width: '100%', maxHeight: '600px', borderRadius: '8px', marginTop: '1rem', objectFit: 'cover' }}
                     />
                   )}
                 </li>
