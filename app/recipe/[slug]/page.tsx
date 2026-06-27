@@ -5,6 +5,7 @@ import CollapsibleSection from '../../components/CollapsibleSection'
 import CookMode from '../../components/CookMode'
 import ReactMarkdown from 'react-markdown'
 import { urlFor } from '../../../lib/imageUrl'
+import remarkGfm from 'remark-gfm'
 
 export const revalidate = 60
 
@@ -114,15 +115,17 @@ export default async function RecipePage({ params }: any) {
         </div>
 
         {recipe.summary && (
-          <div style={{ fontFamily: 'Inter, sans-serif', color: '#EAD7C5', fontSize: '1rem', lineHeight: 1.7, marginBottom: '2.5rem' }}>
-            <ReactMarkdown>{String(recipe.summary)}</ReactMarkdown>
+          <div style={{ fontFamily: 'Inter, sans-serif', color: '#EAD7C5', fontSize: '1rem', lineHeight: 1.7, marginBottom: '2.5rem' }}
+            className="markdown-steps">
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{String(recipe.summary)}</ReactMarkdown>
           </div>
         )}
 
         {recipe.intro && (
-          <p style={{ fontFamily: 'Inter, sans-serif', color: '#EAD7C5', fontSize: '1rem', lineHeight: 1.7, marginBottom: '2.5rem', whiteSpace: 'pre-line' }}>
-            {recipe.intro}
-          </p>
+          <div style={{ fontFamily: 'Inter, sans-serif', color: '#EAD7C5', fontSize: '1rem', lineHeight: 1.7, marginBottom: '2.5rem' }}
+            className="markdown-steps">
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{String(recipe.intro)}</ReactMarkdown>
+          </div>
         )}
 
         {recipe.equipment?.length > 0 && (
@@ -177,7 +180,7 @@ export default async function RecipePage({ params }: any) {
                     </span>
                     <div style={{ fontFamily: 'Inter, sans-serif', color: '#EAD7C5', fontSize: '0.95rem', lineHeight: 1.7, margin: 0 }}
                       className="markdown-steps">
-                      <ReactMarkdown>{String(step.text)}</ReactMarkdown>
+                      <ReactMarkdown remarkPlugins={[remarkGfm]}>{String(step.text)}</ReactMarkdown>
                     </div>
                   </div>
                   {step.image && (

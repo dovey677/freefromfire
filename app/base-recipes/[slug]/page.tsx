@@ -5,6 +5,7 @@ import CollapsibleSection from '../../components/CollapsibleSection'
 import ReactMarkdown from 'react-markdown'
 import CookMode from '../../components/CookMode'
 import { urlFor } from '../../../lib/imageUrl'
+import remarkGfm from 'remark-gfm'
 
 export const revalidate = 60
 
@@ -91,8 +92,9 @@ export default async function BaseRecipePage({ params }: any) {
         )}
 
         {baseRecipe.intro && (
-          <div style={{ fontFamily: 'Inter, sans-serif', color: '#EAD7C5', fontSize: '1rem', lineHeight: 1.7, marginBottom: '2.5rem' }}>
-            <ReactMarkdown>{String(baseRecipe.intro)}</ReactMarkdown>
+          <div style={{ fontFamily: 'Inter, sans-serif', color: '#EAD7C5', fontSize: '1rem', lineHeight: 1.7, marginBottom: '2.5rem' }}
+            className="markdown-steps">
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{String(baseRecipe.intro)}</ReactMarkdown>
           </div>
         )}
 
@@ -152,7 +154,7 @@ export default async function BaseRecipePage({ params }: any) {
                     </span>
                     <div style={{ fontFamily: 'Inter, sans-serif', color: '#EAD7C5', fontSize: '0.95rem', lineHeight: 1.7, margin: 0 }}
                       className="markdown-steps">
-                      <ReactMarkdown>{String(step.text)}</ReactMarkdown>
+                      <ReactMarkdown remarkPlugins={[remarkGfm]}>{String(step.text)}</ReactMarkdown>
                     </div>
                   </div>
                   {step.image && (
