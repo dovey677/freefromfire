@@ -143,7 +143,7 @@ export default async function BaseRecipePage({ params }: any) {
         {baseRecipe.steps?.length > 0 && (
           <CollapsibleSection title="Method" accentColor="#E85C2B" defaultOpen={true}>
             <ol style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '0' }}>
-              {baseRecipe.steps.map((step: string, i: number) => (
+              {baseRecipe.steps.map((step: any, i: number) => (
                 <li key={i} style={{ display: 'flex', gap: '1.25rem', alignItems: 'flex-start', padding: '1.25rem', backgroundColor: i % 2 === 0 ? '#252525' : '#2a2020', borderRadius: '6px', marginBottom: '2px' }}>
                   <span style={{ fontFamily: 'Oswald, sans-serif', fontSize: '1.5rem', fontWeight: 700, color: '#E85C2B', flexShrink: 0, lineHeight: 1 }}>
                     {String(i + 1).padStart(2, '0')}
