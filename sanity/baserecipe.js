@@ -35,7 +35,13 @@ export default {
     },
     {
       name: 'summary',
-      title: 'Summary',
+      title: 'Summary (max 5 lines — shown on the listing card)',
+      type: 'text',
+      rows: 5,
+    },
+    {
+      name: 'intro',
+      title: 'Introduction (shown at the top of the recipe, before ingredients)',
       type: 'text',
     },
     {

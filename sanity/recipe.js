@@ -25,6 +25,17 @@ export default {
       list: ['BBQ', 'Bakes', 'Pizza', 'Sides'],
       },
     },
+        {
+      name: 'summary',
+      title: 'Summary (max 5 lines — shown on the listing card)',
+      type: 'text',
+      rows: 5,
+    },
+    {
+      name: 'intro',
+      title: 'Introduction (shown at the top of the recipe, before ingredients)',
+      type: 'text',
+    },
     {
       name: 'glutenFree',
       title: 'Gluten Free',

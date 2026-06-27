@@ -3,6 +3,7 @@ import Link from 'next/link'
 import IngredientList from '../../components/IngredientList'
 import CollapsibleSection from '../../components/CollapsibleSection'
 import CookMode from '../../components/CookMode'
+import ReactMarkdown from 'react-markdown'
 
 export const revalidate = 60
 
@@ -12,6 +13,8 @@ async function getRecipe(slug: string) {
       _id,
       title,
       category,
+      summary,
+      intro,
       cookTime,
       prepTime,
       serves,
@@ -106,6 +109,18 @@ export default async function RecipePage({ params }: any) {
           )}
         </div>
 
+        {recipe.summary && (
+          <div style={{ fontFamily: 'Inter, sans-serif', color: '#EAD7C5', fontSize: '1rem', lineHeight: 1.7, marginBottom: '2.5rem' }}>
+            <ReactMarkdown>{String(recipe.summary)}</ReactMarkdown>
+          </div>
+        )}
+
+        {recipe.intro && (
+          <p style={{ fontFamily: 'Inter, sans-serif', color: '#EAD7C5', fontSize: '1rem', lineHeight: 1.7, marginBottom: '2.5rem', whiteSpace: 'pre-line' }}>
+            {recipe.intro}
+          </p>
+        )}
+
         {recipe.equipment?.length > 0 && (
           <CollapsibleSection title="Equipment" accentColor="#7A8F6A" defaultOpen={false}>
             <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
@@ -155,9 +170,9 @@ export default async function RecipePage({ params }: any) {
                   <span style={{ fontFamily: 'Oswald, sans-serif', fontSize: '1.5rem', fontWeight: 700, color: '#E85C2B', flexShrink: 0, lineHeight: 1 }}>
                     {String(i + 1).padStart(2, '0')}
                   </span>
-                  <p style={{ fontFamily: 'Inter, sans-serif', color: '#EAD7C5', fontSize: '0.95rem', lineHeight: 1.7, margin: 0, whiteSpace: 'pre-line' }}>
-                    {step}
-                  </p>
+                  <div style={{ fontFamily: 'Inter, sans-serif', color: '#EAD7C5', fontSize: '0.95rem', lineHeight: 1.7, margin: 0 }}>
+                    <ReactMarkdown>{String(step)}</ReactMarkdown>
+                  </div>
                 </li>
               ))}
             </ol>

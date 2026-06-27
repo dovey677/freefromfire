@@ -14,6 +14,7 @@ async function getBaseRecipe(slug: string) {
       title,
       category,
       summary,
+      intro,
       servesCount,
       servesLabel,
       glutenFree,
@@ -82,6 +83,12 @@ export default async function BaseRecipePage({ params }: any) {
         {baseRecipe.summary && (
           <div style={{ fontFamily: 'Inter, sans-serif', color: '#EAD7C5', fontSize: '1rem', lineHeight: 1.7, marginBottom: '2.5rem' }}>
             <ReactMarkdown>{String(baseRecipe.summary)}</ReactMarkdown>
+          </div>
+        )}
+
+        {baseRecipe.intro && (
+          <div style={{ fontFamily: 'Inter, sans-serif', color: '#EAD7C5', fontSize: '1rem', lineHeight: 1.7, marginBottom: '2.5rem' }}>
+            <ReactMarkdown>{String(baseRecipe.intro)}</ReactMarkdown>
           </div>
         )}
 
