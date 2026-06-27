@@ -63,7 +63,38 @@ export default {
       name: 'steps',
       title: 'Steps',
       type: 'array',
-      of: [{ type: 'text' }],
+      of: [
+        {
+          type: 'object',
+          fields: [
+            {
+              name: 'text',
+              title: 'Step Text',
+              type: 'text',
+            },
+            {
+              name: 'image',
+              title: 'Step Image (optional)',
+              type: 'image',
+              options: {
+                hotspot: true,
+              },
+            },
+          ],
+          preview: {
+            select: {
+              text: 'text',
+              media: 'image',
+            },
+            prepare({ text, media }) {
+              return {
+                title: text?.substring(0, 60) || 'Step',
+                media,
+              }
+            },
+          },
+        },
+      ],
     },
     {
       name: 'videoUrl',

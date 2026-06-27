@@ -28,7 +28,10 @@ async function getBaseRecipe(slug: string) {
           name
         }
       },
-      steps,
+      steps[] {
+        text,
+        "image": image.asset->url
+      },
       videoUrl,
       "thumbnail": thumbnail.asset->url
     }`,
@@ -145,9 +148,17 @@ export default async function BaseRecipePage({ params }: any) {
                   <span style={{ fontFamily: 'Oswald, sans-serif', fontSize: '1.5rem', fontWeight: 700, color: '#E85C2B', flexShrink: 0, lineHeight: 1 }}>
                     {String(i + 1).padStart(2, '0')}
                   </span>
-                  <p style={{ fontFamily: 'Inter, sans-serif', color: '#EAD7C5', fontSize: '0.95rem', lineHeight: 1.7, margin: 0, whiteSpace: 'pre-line' }}>
-                    {step}
-                  </p>
+                  <div style={{ fontFamily: 'Inter, sans-serif', color: '#EAD7C5', fontSize: '0.95rem', lineHeight: 1.7, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}
+                    className="markdown-steps">
+                    <ReactMarkdown>{String(step.text)}</ReactMarkdown>
+                  </div>
+                  {step.image?.asset?.url && (
+                    <img
+                      src={step.image.asset.url}
+                      alt={`Step ${i + 1}`}
+                      style={{ width: '100%', borderRadius: '8px', marginTop: '1rem', objectFit: 'cover' }}
+                    />
+                  )}
                 </li>
               ))}
             </ol>

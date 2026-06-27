@@ -23,3 +23,21 @@ h1, h2, h3, h4 {
   font-family: 'Oswald', sans-serif;
   letter-spacing: 0.02em;
 }
+
+.markdown-steps p {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.markdown-steps ul, .markdown-steps ol {
+  margin: 0 !important;
+  padding-left: 1.25rem !important;
+}
+
+.markdown-steps li {
+  margin-bottom: 0.25rem;
+}
+
+.markdown-steps strong {
+  color: #F7F5F2;
+}

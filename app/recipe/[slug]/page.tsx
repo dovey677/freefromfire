@@ -30,7 +30,10 @@ async function getRecipe(slug: string) {
           name
         }
       },
-      steps,
+      steps[] {
+        text,
+        "image": image.asset->url
+      },
       videoUrl,
       "thumbnail": thumbnail.asset->url
     }`,
@@ -165,14 +168,22 @@ export default async function RecipePage({ params }: any) {
         {recipe.steps?.length > 0 && (
           <CollapsibleSection title="Method" accentColor="#E85C2B" defaultOpen={true}>
             <ol style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '0' }}>
-              {recipe.steps.map((step: string, i: number) => (
+              {recipe.steps.map((step: any, i: number) => (
                 <li key={i} style={{ display: 'flex', gap: '1.25rem', alignItems: 'flex-start', padding: '1.25rem', backgroundColor: i % 2 === 0 ? '#252525' : '#2a2020', borderRadius: '6px', marginBottom: '2px' }}>
                   <span style={{ fontFamily: 'Oswald, sans-serif', fontSize: '1.5rem', fontWeight: 700, color: '#E85C2B', flexShrink: 0, lineHeight: 1 }}>
                     {String(i + 1).padStart(2, '0')}
                   </span>
-                  <div style={{ fontFamily: 'Inter, sans-serif', color: '#EAD7C5', fontSize: '0.95rem', lineHeight: 1.7, margin: 0 }}>
-                    <ReactMarkdown>{String(step)}</ReactMarkdown>
+                  <div style={{ fontFamily: 'Inter, sans-serif', color: '#EAD7C5', fontSize: '0.95rem', lineHeight: 1.7, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}
+                    className="markdown-steps">
+                    <ReactMarkdown>{String(step.text)}</ReactMarkdown>
                   </div>
+                  {step.image?.asset?.url && (
+                    <img
+                      src={step.image.asset.url}
+                      alt={`Step ${i + 1}`}
+                      style={{ width: '100%', borderRadius: '8px', marginTop: '1rem', objectFit: 'cover' }}
+                    />
+                  )}
                 </li>
               ))}
             </ol>
