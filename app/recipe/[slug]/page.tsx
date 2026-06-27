@@ -4,6 +4,7 @@ import IngredientList from '../../components/IngredientList'
 import CollapsibleSection from '../../components/CollapsibleSection'
 import CookMode from '../../components/CookMode'
 import ReactMarkdown from 'react-markdown'
+import { urlFor } from '../../../lib/imageUrl'
 
 export const revalidate = 60
 
@@ -32,7 +33,7 @@ async function getRecipe(slug: string) {
       },
       steps[] {
         text,
-        "image": image.asset->url
+        image,
       },
       videoUrl,
       "thumbnail": thumbnail.asset->url
@@ -169,17 +170,19 @@ export default async function RecipePage({ params }: any) {
           <CollapsibleSection title="Method" accentColor="#E85C2B" defaultOpen={true}>
             <ol style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '0' }}>
               {recipe.steps.map((step: any, i: number) => (
-                <li key={i} style={{ display: 'flex', gap: '1.25rem', alignItems: 'flex-start', padding: '1.25rem', backgroundColor: i % 2 === 0 ? '#252525' : '#2a2020', borderRadius: '6px', marginBottom: '2px' }}>
-                  <span style={{ fontFamily: 'Oswald, sans-serif', fontSize: '1.5rem', fontWeight: 700, color: '#E85C2B', flexShrink: 0, lineHeight: 1 }}>
-                    {String(i + 1).padStart(2, '0')}
-                  </span>
-                  <div style={{ fontFamily: 'Inter, sans-serif', color: '#EAD7C5', fontSize: '0.95rem', lineHeight: 1.7, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}
-                    className="markdown-steps">
-                    <ReactMarkdown>{String(step.text)}</ReactMarkdown>
+                <li key={i} style={{ display: 'flex', flexDirection: 'column', padding: '1.25rem', backgroundColor: i % 2 === 0 ? '#252525' : '#2a2020', borderRadius: '6px', marginBottom: '2px' }}>
+                  <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'flex-start' }}>
+                    <span style={{ fontFamily: 'Oswald, sans-serif', fontSize: '1.5rem', fontWeight: 700, color: '#E85C2B', flexShrink: 0, lineHeight: 1 }}>
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                    <div style={{ fontFamily: 'Inter, sans-serif', color: '#EAD7C5', fontSize: '0.95rem', lineHeight: 1.7, margin: 0 }}
+                      className="markdown-steps">
+                      <ReactMarkdown>{String(step.text)}</ReactMarkdown>
+                    </div>
                   </div>
-                  {step.image?.asset?.url && (
+                  {step.image && (
                     <img
-                      src={step.image.asset.url}
+                      src={urlFor(step.image).width(800).fit('crop').url()}
                       alt={`Step ${i + 1}`}
                       style={{ width: '100%', borderRadius: '8px', marginTop: '1rem', objectFit: 'cover' }}
                     />
