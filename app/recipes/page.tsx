@@ -23,6 +23,7 @@ export default function RecipesPage() {
       allergens,
       glutenFree,
       fireMethod,
+      summary,
       freeRecipe,
       "slug": slug.current,
       "thumbnail": thumbnail.asset->url
@@ -188,6 +189,11 @@ export default function RecipesPage() {
                     <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: '#7A8F6A', marginBottom: '0.75rem' }}>
                       {recipe.cookTime && `${recipe.cookTime} mins`}{recipe.cookTime && recipe.fireMethod && ' · '}{recipe.fireMethod}
                     </p>
+                    {recipe.summary && (
+                      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: '#7A8F6A', lineHeight: 1.5, margin: '0.5rem 0 0 0', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                        {recipe.summary}
+                      </p>
+                    )}
                     {recipe.allergens?.length > 0 && (
                       <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap', alignItems: 'center' }}>
                         <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.65rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#B23A1B' }}>Contains:</span>
@@ -235,6 +241,11 @@ export default function RecipesPage() {
                     <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.95rem', color: '#7A8F6A', marginBottom: '0.75rem' }}>
                       {recipe.cookTime && `${recipe.cookTime} mins`}{recipe.cookTime && recipe.fireMethod && ' · '}{recipe.fireMethod}
                     </p>
+                    {recipe.summary && (
+                      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.95rem', color: '#7A8F6A', lineHeight: 1.5, margin: '0.5rem 0 0.5rem 0', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                        {recipe.summary}
+                      </p>
+                    )}
                     {recipe.allergens?.length > 0 && (
                       <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap', alignItems: 'center' }}>
                         <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#B23A1B' }}>Contains:</span>

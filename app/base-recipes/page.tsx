@@ -18,6 +18,7 @@ export default function BaseRecipesPage() {
       title,
       category,
       summary,
+      intro,
       glutenFree,
       allergens,
       freeBaseRecipe,
