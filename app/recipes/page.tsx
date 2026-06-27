@@ -170,7 +170,7 @@ export default function RecipesPage() {
                       <span style={{ fontSize: '3rem' }}>🔥</span>
                     </div>
                   )}
-                  <div style={{ padding: '1rem' }}>
+                  <div style={{ padding: '0.5rem' }}>
                     <h3 style={{ fontFamily: 'Oswald, sans-serif', fontSize: '1.25rem', fontWeight: 600, color: '#F7F5F2', marginBottom: '0.5rem', letterSpacing: '0.02em' }}>
                       {recipe.title}
                     </h3>
