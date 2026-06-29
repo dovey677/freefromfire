@@ -120,10 +120,10 @@ export default async function Home() {
           <p style={{ color: '#7A8F6A' }}>No recipes yet — check back soon!</p>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1.5rem', alignItems: 'stretch' }}>
           {recipes.slice(0, 6).map((recipe: any) => (
-            <Link key={recipe._id} href={`/recipe/${recipe.slug}`}>
-              <div style={{ backgroundColor: '#2a2020', border: '1px solid #3a2a2a', borderRadius: '12px', overflow: 'hidden', transition: 'border-color 0.2s, transform 0.2s' }}
+            <Link key={recipe._id} href={`/recipe/${recipe.slug}`} style={{ textDecoration: 'none', display: 'flex' }}>
+              <div style={{ backgroundColor: '#2a2020', border: '1px solid #3a2a2a', borderRadius: '12px', overflow: 'hidden', transition: 'border-color 0.2s, transform 0.2s', display: 'flex', flexDirection: 'column', width: '100%' }}
                 className="hover:border-orange-600 hover:-translate-y-1 cursor-pointer">
                 {recipe.thumbnail ? (
                   <img
