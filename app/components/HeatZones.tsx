@@ -28,13 +28,12 @@ export default function HeatZones() {
         </div>
 
         {/* SVG diagram */}
-        <div style={{ display: 'flex', justifyContent: 'center', padding: '0 0rem' }}>
+        <div style={{ width: '100%', maxWidth: '800px', margin: '0 auto' }}>
           <svg
-            width="100%"
-            viewBox="0 0 680 420"
+            viewBox="-40 0 760 420"
             role="img"
             aria-label="BBQ zone cooking diagram showing direct heat on the left with coals and indirect heat on the right with food"
-            style={{ display: 'block', maxWidth: '800px' }}
+            style={{ width: '100%', height: 'auto', display: 'block' }}
           >
             <defs>
               <marker id="fff-arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
@@ -95,7 +94,7 @@ export default function HeatZones() {
             <line x1="586" y1="102" x2="600" y2="102" stroke="#444" strokeWidth="1"/>
             <path d="M602 95 L632 95" fill="none" stroke="#E85C2B" strokeWidth="1.5" markerEnd="url(#fff-arr)" opacity="0.75"/>
             <text x="638" y="86" textAnchor="start" fontFamily="Oswald, sans-serif" fontSize="10" fill="#7A8F6A" letterSpacing="0.04em">EXHAUST</text>
-            <text x="638" y="104" textAnchor="start" fontFamily="Inter, sans-serif" fontSize="10" fill="#555">Fully open</text>
+            <text x="638" y="104" textAnchor="start" fontFamily="Inter, sans-serif" fontSize="9" fill="#555">Fully open</text>
 
             {/* Grill grate */}
             <line x1="94" y1="175" x2="586" y2="175" stroke="#333" strokeWidth="2"/>
@@ -163,8 +162,8 @@ export default function HeatZones() {
             {/* Legs */}
             <rect x="148" y="320" width="11" height="30" rx="4" fill="#2a2a27"/>
             <rect x="230" y="320" width="11" height="26" rx="4" fill="#2a2a27"/>
-            <rect x="358" y="320" width="11" height="26" rx="4" fill="#2a2a27"/>
-            <rect x="440" y="320" width="11" height="30" rx="4" fill="#2a2a27"/>
+            <rect x="450" y="320" width="11" height="26" rx="4" fill="#2a2a27"/>
+            <rect x="530" y="320" width="11" height="30" rx="4" fill="#2a2a27"/>
           </svg>
         </div>
 
