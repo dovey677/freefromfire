@@ -88,7 +88,7 @@ export default async function Home() {
           FIRE-COOKED. <span style={{ color: '#E85C2B' }}>FREE FROM GLUTEN.</span><br />NO COMPROMISE.
         </h2>
         <div style={{ width: '3rem', height: '3px', backgroundColor: '#E85C2B', marginBottom: '2rem' }} />
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
           {[
             { emoji: '🔥', title: 'BBQ Recipes', description: 'Low and slow smokes, reverse sears, grills — all gluten free.', href: '/recipes' },
             { emoji: '🍕', title: 'Baking & Pizza', description: 'Fire-cooked breads, pizzas and bakes from the Gozney Dome.', href: '/recipes' },
