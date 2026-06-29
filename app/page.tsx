@@ -52,7 +52,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <section style={{ maxWidth: '48rem', margin: '0 auto', padding: '4rem 2rem', borderBottom: '1px solid #2a2a2a' }}>
+      <section style={{ maxWidth: '1200px', margin: '0 auto', padding: '3rem 2rem', borderBottom: '1px solid #2a2a2a' }}>
         <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#7A8F6A', marginBottom: '1rem' }}>
           The Story
         </p>
@@ -80,7 +80,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <section style={{ maxWidth: '48rem', margin: '0 auto', padding: '3rem 2rem', borderBottom: '1px solid #2a2a2a' }}>
+      <section style={{ maxWidth: '1200px', margin: '0 auto', padding: '3rem 2rem', borderBottom: '1px solid #2a2a2a' }}>
         <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#7A8F6A', marginBottom: '1rem' }}>
           What You'll Find Here
         </p>
@@ -88,7 +88,7 @@ export default async function Home() {
           FIRE-COOKED. <span style={{ color: '#E85C2B' }}>FREE FROM GLUTEN.</span><br />NO COMPROMISE.
         </h2>
         <div style={{ width: '3rem', height: '3px', backgroundColor: '#E85C2B', marginBottom: '2rem' }} />
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem' }}>
           {[
             { emoji: '🔥', title: 'BBQ Recipes', description: 'Low and slow smokes, reverse sears, grills — all gluten free.', href: '/recipes' },
             { emoji: '🍕', title: 'Baking & Pizza', description: 'Fire-cooked breads, pizzas and bakes from the Gozney Dome.', href: '/recipes' },
