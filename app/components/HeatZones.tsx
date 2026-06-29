@@ -84,8 +84,9 @@ export default function HeatZones() {
             <line x1="80" y1="284" x2="94" y2="284" stroke="#444" strokeWidth="1"/>
             <line x1="80" y1="292" x2="94" y2="292" stroke="#444" strokeWidth="1"/>
             <path d="M46 285 L78 285" fill="none" stroke="#E85C2B" strokeWidth="1.5" markerEnd="url(#fff-arr)" opacity="0.75"/>
-            <text x="43" y="275" textAnchor="middle" fontFamily="Oswald, sans-serif" fontSize="9" fill="#7A8F6A" letterSpacing="0.04em">INTAKE</text>
-            <text x="43" y="297" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="9" fill="#555">open</text>
+            <text x="43" y="275" textAnchor="middle" fontFamily="Oswald, sans-serif" fontSize="10" fill="#7A8F6A" letterSpacing="0.04em">INTAKE</text>
+            <text x="43" y="302" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="9" fill="#555">Use for</text>
+            <text x="43" y="313" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="9" fill="#555">temp control</text>
 
             {/* Exhaust vent — right wall, high */}
             <rect x="586" y="78" width="14" height="34" rx="3" fill="#1a1a18" stroke="#444" strokeWidth="1"/>
@@ -93,8 +94,8 @@ export default function HeatZones() {
             <line x1="586" y1="94" x2="600" y2="94" stroke="#444" strokeWidth="1"/>
             <line x1="586" y1="102" x2="600" y2="102" stroke="#444" strokeWidth="1"/>
             <path d="M602 95 L632 95" fill="none" stroke="#E85C2B" strokeWidth="1.5" markerEnd="url(#fff-arr)" opacity="0.75"/>
-            <text x="638" y="86" textAnchor="start" fontFamily="Oswald, sans-serif" fontSize="9" fill="#7A8F6A" letterSpacing="0.04em">EXHAUST</text>
-            <text x="638" y="104" textAnchor="start" fontFamily="Inter, sans-serif" fontSize="9" fill="#555">over food</text>
+            <text x="638" y="86" textAnchor="start" fontFamily="Oswald, sans-serif" fontSize="10" fill="#7A8F6A" letterSpacing="0.04em">EXHAUST</text>
+            <text x="638" y="104" textAnchor="start" fontFamily="Inter, sans-serif" fontSize="10" fill="#555">Fully open</text>
 
             {/* Grill grate */}
             <line x1="94" y1="175" x2="586" y2="175" stroke="#333" strokeWidth="2"/>
