@@ -1,5 +1,6 @@
 import { client } from '../lib/sanity'
 import Link from 'next/link'
+import HeroVideo from './components/HeroVideo'
 
 export const revalidate = 60
 
@@ -24,26 +25,31 @@ export default async function Home() {
   return (
     <main style={{ backgroundColor: '#1F1F1F', minHeight: '100vh' }}>
 
-      <section style={{ backgroundColor: '#111', borderBottom: '1px solid #2a2a2a', padding: '4rem 2rem' }} className="text-center">
-        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '2rem' }}>
-          <img
-            src="/logo.png"
-            alt="Free From Fire"
-            style={{ width: '220px', height: '220px', objectFit: 'contain' }}
-          />
+      <section style={{ backgroundColor: '#111', borderBottom: '1px solid #2a2a2a', padding: '4rem 2rem', position: 'relative', overflow: 'hidden' }} className="text-center">
+        
+        <HeroVideo />
+
+        <div style={{ position: 'relative', zIndex: 1 }}>
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '2rem' }}>
+            <img
+              src="/logo.png"
+              alt="Free From Fire"
+              style={{ width: '220px', height: '220px', objectFit: 'contain' }}
+            />
+          </div>
+          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#7A8F6A', marginBottom: '1rem' }}>
+            Free from limits. Forged by fire.
+          </p>
+          <h1 style={{ fontFamily: 'Oswald, sans-serif', fontSize: 'clamp(3rem, 8vw, 6rem)', fontWeight: 700, color: '#F7F5F2', lineHeight: 1, marginBottom: '1.5rem', letterSpacing: '0.02em' }}>
+            FIRE-COOKED.<br />
+            <span style={{ color: '#E85C2B' }}>ALWAYS FREE</span><br />
+            FROM GLUTEN.
+          </h1>
+          <div style={{ width: '4rem', height: '3px', backgroundColor: '#E85C2B', margin: '0 auto 1.5rem' }}></div>
+          <p style={{ fontFamily: 'Inter, sans-serif', color: '#EAD7C5', maxWidth: '32rem', margin: '0 auto', lineHeight: 1.7, fontSize: '1rem' }}>
+            Real fire. Real family. No compromise on flavour — or safety.
+          </p>
         </div>
-        <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#7A8F6A', marginBottom: '1rem' }}>
-          Built Around Fire.
-        </p>
-        <h1 style={{ fontFamily: 'Oswald, sans-serif', fontSize: 'clamp(3rem, 8vw, 6rem)', fontWeight: 700, color: '#F7F5F2', lineHeight: 1, marginBottom: '1.5rem', letterSpacing: '0.02em' }}>
-          FIRE-COOKED.<br />
-          <span style={{ color: '#E85C2B' }}>ALWAYS FREE</span><br />
-          FROM GLUTEN.
-        </h1>
-        <div style={{ width: '4rem', height: '3px', backgroundColor: '#E85C2B', margin: '0 auto 1.5rem' }}></div>
-        <p style={{ fontFamily: 'Inter, sans-serif', color: '#EAD7C5', maxWidth: '32rem', margin: '0 auto', lineHeight: 1.7, fontSize: '1rem' }}>
-          Real fire. Real family. No compromise on flavour — or safety.
-        </p>
       </section>
 
       <section style={{ maxWidth: '48rem', margin: '0 auto', padding: '4rem 2rem', borderBottom: '1px solid #2a2a2a' }}>
