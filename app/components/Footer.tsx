@@ -25,7 +25,7 @@ export default function Footer() {
           <h3 style={{ fontFamily: 'Oswald, sans-serif', fontSize: '1rem', fontWeight: 600, color: '#EAD7C5', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>Follow Along</h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
             <a href="https://www.instagram.com/free_from_fire" target="_blank" rel="noopener noreferrer" style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', color: '#7A8F6A', textDecoration: 'none' }}>📸 Instagram - @free_from_fire</a>
-            <a href="https://www.facebook.com/freefromfire" target="_blank" rel="noopener noreferrer" style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', color: '#7A8F6A', textDecoration: 'none' }}>👍 Facebook - Free From Fire</a>
+            <a href="https://www.facebook.com/profile.php?id=61582612796628" target="_blank" rel="noopener noreferrer" style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', color: '#7A8F6A', textDecoration: 'none' }}>👍 Facebook - Free From Fire</a>
           </div>
         </div>
 
