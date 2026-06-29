@@ -113,6 +113,12 @@ export default async function BaseRecipePage({ params }: any) {
           </CollapsibleSection>
         )}
 
+        <div style={{ backgroundColor: '#1a1212', border: '1px solid #3a2020', borderRadius: '8px', padding: '0.875rem 0.875rem', marginBottom: '2rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: '#EAD7C5', margin: 0, lineHeight: 1.6, textAlign: 'center' }}>
+            ⚠️ Always check individual product labels for allergen information as ingredients vary by brand. ⚠️
+          </p>
+        </div>
+
         {baseRecipe.equipment?.length > 0 && (
           <CollapsibleSection title="Equipment" accentColor="#7A8F6A" defaultOpen={false}>
             <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>

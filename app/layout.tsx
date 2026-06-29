@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import Nav from './components/Nav'
+import Footer from './components/Footer'
 
 export const metadata: Metadata = {
   title: 'Free From Fire',
@@ -21,6 +22,7 @@ export default function RootLayout({
       <body className="bg-gray-950">
         <Nav />
         {children}
+        <Footer />
       </body>
     </html>
   )
