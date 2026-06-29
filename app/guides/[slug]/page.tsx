@@ -5,6 +5,7 @@ import CookMode from '../../components/CookMode'
 import CollapsibleSection from '../../components/CollapsibleSection'
 import { urlFor } from '../../../lib/imageUrl'
 import remarkGfm from 'remark-gfm'
+import HeatZones from '../../components/HeatZones'
 
 export const revalidate = 60
 

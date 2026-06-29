@@ -60,6 +60,14 @@ export default {
       of: [{ type: 'text' }],
     },
     {
+      name: 'componentName',
+      title: 'Interactive Component (optional)',
+      type: 'string',
+      options: {
+        list: ['HeatZones'],
+      },
+    },
+    {
       name: 'steps',
       title: 'Steps',
       type: 'array',
