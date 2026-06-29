@@ -18,6 +18,7 @@ async function getGuide(slug: string) {
       difficulty,
       equipment,
       summary,
+      componentName,
       intro,
       steps[] {
         text,
@@ -81,20 +82,21 @@ export default async function GuidePage({ params }: any) {
           </div>
         )}
 
-        {guide.intro && (
-          <div style={{ fontFamily: 'Inter, sans-serif', color: '#EAD7C5', fontSize: '1rem', lineHeight: 1.7, marginBottom: '2.5rem' }}
+        
+        {guide.intro?.length > 0 && (
+          <div style={{ fontFamily: 'Inter, sans-serif', color: '#EAD7C5', fontSize: '1rem', lineHeight: 1.7, marginBottom: '2rem' }}
             className="markdown-steps">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>{String(guide.intro)}</ReactMarkdown>
+            {guide.intro.map((block: string, i: number) => (
+              <div key={i} style={{ marginBottom: '1rem' }}>
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>{String(block)}</ReactMarkdown>
+              </div>
+            ))}
           </div>
         )}
 
-        <div style={{ marginBottom: '0.5rem', paddingTop: '0.5rem', borderTop: '1px solid #2a2a2a', paddingBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
-          <CookMode />
-          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '1rem', color: '#EAD7C5', margin: 0 }}>
-            Prevent your screen from going dark as you follow along.
-          </p>
-        </div>
+               {guide.componentName === 'HeatZones' && <HeatZones />}
 
+        <div style={{ marginTop: '2rem', marginBottom: '0.5rem' }}>
         {guide.equipment?.length > 0 && (
           <CollapsibleSection title="Equipment" accentColor="#7A8F6A" defaultOpen={false}>
             <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
@@ -107,6 +109,14 @@ export default async function GuidePage({ params }: any) {
             </ul>
           </CollapsibleSection>
         )}
+        </div>
+        
+         <div style={{ marginBottom: '0.5rem', paddingTop: '0.5rem', borderTop: '1px solid #2a2a2a', paddingBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+          <CookMode />
+          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '1rem', color: '#EAD7C5', margin: 0 }}>
+            Prevent your screen from going dark as you follow along.
+          </p>
+        </div>
 
         {guide.steps?.length > 0 && (
           <CollapsibleSection title="Method" accentColor="#E85C2B" defaultOpen={true}>
