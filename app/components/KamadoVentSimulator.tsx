@@ -3,11 +3,11 @@
 import { useState, useMemo } from 'react'
 
 const GLOW_POSITIONS = [
-  { id: 'coal-glow-1', cx: 122, cy: 368, rx: 10, ry: 6 },
-  { id: 'coal-glow-2', cx: 160, cy: 363, rx: 11, ry: 6 },
-  { id: 'coal-glow-3', cx: 198, cy: 369, rx: 10, ry: 6 },
-  { id: 'coal-glow-4', cx: 140, cy: 378, rx: 8, ry: 5 },
-  { id: 'coal-glow-5', cx: 180, cy: 379, rx: 8, ry: 5 },
+  { id: 'coal-glow-1', cx: 122, cy: 288, rx: 10, ry: 6 },
+  { id: 'coal-glow-2', cx: 160, cy: 283, rx: 11, ry: 6 },
+  { id: 'coal-glow-3', cx: 198, cy: 289, rx: 10, ry: 6 },
+  { id: 'coal-glow-4', cx: 140, cy: 298, rx: 8, ry: 5 },
+  { id: 'coal-glow-5', cx: 180, cy: 299, rx: 8, ry: 5 },
 ]
 
 function computeState(intake: number, exhaust: number) {
@@ -95,8 +95,8 @@ function computeState(intake: number, exhaust: number) {
 
   const glowStrength = Math.max(0.15, fireStrength)
   const flameHeight = 14 + fireStrength * 80
-  const topY = Math.max(296, 360 - flameHeight)
-  const flameD = `M160,360 C138,350 142,322 160,${topY} C178,322 182,350 160,360 Z`
+  const topY = Math.max(216, 280 - flameHeight)
+  const flameD = `M160,280 C138,270 142,242 160,${topY} C178,242 182,270 160,280 Z`
   const hue = 22 - Math.min(fireStrength * 100, 100) * 0.08
   const flameFill = `hsl(${Math.round(hue)}, 80%, ${Math.round(45 + fireStrength * 100 * 0.15)}%)`
   const flameOpacity = 0.2 + glowStrength * 0.75
@@ -146,7 +146,7 @@ export default function KamadoVentSimulator() {
   }
 
   return (
-    <section style={{ backgroundColor: '#1F1F1F', padding: '3rem 2rem' }}>
+    <section style={{ backgroundColor: '#1F1F1F', padding: '1.5rem 1.25rem' }}>
       <div
         style={{
           maxWidth: 480,
@@ -183,7 +183,7 @@ export default function KamadoVentSimulator() {
           />
         </div>
 
-        <svg viewBox="0 0 320 460" style={{ width: 240, height: 'auto', margin: '8px 0' }} role="img" aria-hidden="true">
+        <svg viewBox="0 -20 320 390" style={{ width: 220, height: 'auto', margin: '0' }} role="img" aria-hidden="true">
           <path
             d="M148,80 C140,55 162,46 154,18 M160,82 C160,52 178,48 168,12 M172,80 C184,58 166,44 178,16"
             fill="none"
@@ -196,38 +196,38 @@ export default function KamadoVentSimulator() {
           <rect x="145" y="66" width="30" height="22" rx="4" fill="#2A2A28" stroke="#5A5A56" strokeWidth={2.5} />
 
           <path
-            d="M50,260 C50,150 95,88 160,88 C225,88 270,150 270,260 L270,270 C270,276 264,280 258,280 L62,280 C56,280 50,276 50,270 Z"
+            d="M50,188 C50,124 95,88 160,88 C225,88 270,124 270,188 L270,194 C270,198 264,200 258,200 L62,200 C56,200 50,198 50,194 Z"
             fill="#2A2A28"
             stroke="#5A5A56"
             strokeWidth={3}
           />
 
           <path
-            d="M44,282 C44,360 56,390 160,390 C264,390 276,360 276,282 Z"
+            d="M44,200 C44,278 56,308 160,308 C264,308 276,278 276,200 Z"
             fill="#2A2A28"
             stroke="#5A5A56"
             strokeWidth={3}
           />
-          <line x1="46" y1="306" x2="274" y2="306" stroke="#5A5A56" strokeWidth={2} />
+          <line x1="46" y1="226" x2="274" y2="226" stroke="#5A5A56" strokeWidth={2} />
 
-          <rect x="-2" y="306" width="46" height="14" rx="3" fill="#2A2A28" stroke="#5A5A56" strokeWidth={2.5} />
-          <rect x="276" y="306" width="46" height="14" rx="3" fill="#2A2A28" stroke="#5A5A56" strokeWidth={2.5} />
+          <rect x="-2" y="226" width="46" height="14" rx="3" fill="#2A2A28" stroke="#5A5A56" strokeWidth={2.5} />
+          <rect x="276" y="226" width="46" height="14" rx="3" fill="#2A2A28" stroke="#5A5A56" strokeWidth={2.5} />
 
-          <rect x="60" y="392" width="200" height="20" rx="4" fill="#2A2A28" stroke="#5A5A56" strokeWidth={3} />
-          <rect x="80" y="410" width="160" height="14" fill="#2A2A28" stroke="#5A5A56" strokeWidth={2.5} />
-          <circle cx="100" cy="438" r="16" fill="#3A3A38" stroke="#5A5A56" strokeWidth={2.5} />
-          <circle cx="220" cy="438" r="16" fill="#3A3A38" stroke="#5A5A56" strokeWidth={2.5} />
-          <circle cx="100" cy="438" r="5" fill="#2A2A28" />
-          <circle cx="220" cy="438" r="5" fill="#2A2A28" />
+          <rect x="60" y="312" width="200" height="20" rx="4" fill="#2A2A28" stroke="#5A5A56" strokeWidth={3} />
+          <rect x="80" y="330" width="160" height="14" fill="#2A2A28" stroke="#5A5A56" strokeWidth={2.5} />
+          <circle cx="100" cy="358" r="16" fill="#3A3A38" stroke="#5A5A56" strokeWidth={2.5} />
+          <circle cx="220" cy="358" r="16" fill="#3A3A38" stroke="#5A5A56" strokeWidth={2.5} />
+          <circle cx="100" cy="358" r="5" fill="#2A2A28" />
+          <circle cx="220" cy="358" r="5" fill="#2A2A28" />
 
           <defs>
             <clipPath id="firebox-clip">
-              <rect x="50" y="310" width="220" height="78" />
+              <rect x="50" y="230" width="220" height="78" />
             </clipPath>
           </defs>
           <g clipPath="url(#firebox-clip)">
             <path
-              d="M90,382 l16,-10 14,5 12,-12 14,7 12,-7 16,9 12,-5 14,9 16,-7 12,9 v22 h-138 z"
+              d="M90,302 l16,-10 14,5 12,-12 14,7 12,-7 16,9 12,-5 14,9 16,-7 12,9 v22 h-138 z"
               fill="#15140F"
             />
             {GLOW_POSITIONS.map((g) => (
@@ -269,17 +269,17 @@ export default function KamadoVentSimulator() {
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
-            gap: 12,
+            gap: 8,
             width: '100%',
-            marginTop: '1.5rem',
+            marginTop: '0.75rem',
           }}
         >
-          <div style={{ background: '#2A2A28', borderRadius: 8, padding: '1rem' }}>
-            <p style={{ margin: '0 0 4px', fontSize: 13, color: '#7A8F6A' }}>Dome temp</p>
+          <div style={{ background: '#2A2A28', borderRadius: 8, padding: '0.6rem 0.75rem' }}>
+            <p style={{ margin: '0 0 2px', fontSize: 12, color: '#7A8F6A' }}>Dome temp</p>
             <p
               style={{
                 margin: 0,
-                fontSize: 24,
+                fontSize: 19,
                 fontWeight: 500,
                 fontFamily: 'Oswald, sans-serif',
                 color: '#F7F5F2',
@@ -288,12 +288,12 @@ export default function KamadoVentSimulator() {
               {state.temp}C
             </p>
           </div>
-          <div style={{ background: '#2A2A28', borderRadius: 8, padding: '1rem' }}>
-            <p style={{ margin: '0 0 4px', fontSize: 13, color: '#7A8F6A' }}>Airflow</p>
+          <div style={{ background: '#2A2A28', borderRadius: 8, padding: '0.6rem 0.75rem' }}>
+            <p style={{ margin: '0 0 2px', fontSize: 12, color: '#7A8F6A' }}>Airflow</p>
             <p
               style={{
                 margin: 0,
-                fontSize: 24,
+                fontSize: 19,
                 fontWeight: 500,
                 fontFamily: 'Oswald, sans-serif',
                 color: '#F7F5F2',
@@ -302,12 +302,12 @@ export default function KamadoVentSimulator() {
               {state.flowLabel}
             </p>
           </div>
-          <div style={{ background: '#2A2A28', borderRadius: 8, padding: '1rem' }}>
-            <p style={{ margin: '0 0 4px', fontSize: 13, color: '#7A8F6A' }}>Smoke</p>
+          <div style={{ background: '#2A2A28', borderRadius: 8, padding: '0.6rem 0.75rem' }}>
+            <p style={{ margin: '0 0 2px', fontSize: 12, color: '#7A8F6A' }}>Smoke</p>
             <p
               style={{
                 margin: 0,
-                fontSize: 24,
+                fontSize: 19,
                 fontWeight: 500,
                 fontFamily: 'Oswald, sans-serif',
                 color: '#F7F5F2',
@@ -320,9 +320,9 @@ export default function KamadoVentSimulator() {
 
         <p
           style={{
-            margin: '1rem 0 0',
-            fontSize: 14,
-            lineHeight: 1.6,
+            margin: '0.6rem 0 0',
+            fontSize: 13,
+            lineHeight: 1.5,
             textAlign: 'center',
             color: '#C9C6BF',
             maxWidth: 480,
@@ -331,7 +331,7 @@ export default function KamadoVentSimulator() {
           {state.explain}
         </p>
 
-        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', justifyContent: 'center', marginTop: '1rem' }}>
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', justifyContent: 'center', marginTop: '0.6rem' }}>
           <button type="button" onClick={presets.low} style={buttonStyle}>
             Low and slow
           </button>
