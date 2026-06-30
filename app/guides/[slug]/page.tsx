@@ -6,6 +6,7 @@ import CollapsibleSection from '../../components/CollapsibleSection'
 import { urlFor } from '../../../lib/imageUrl'
 import remarkGfm from 'remark-gfm'
 import HeatZones from '../../components/HeatZones'
+import KamadoVentSimulator from '../../components/KamadoVentSimulator'
 
 export const revalidate = 60
 
@@ -95,6 +96,7 @@ export default async function GuidePage({ params }: any) {
         )}
 
                {guide.componentName === 'HeatZones' && <HeatZones />}
+               {guide.componentName === 'KamadoVentSimulator' && <KamadoVentSimulator />}
 
         <div style={{ marginTop: '2rem', marginBottom: '0.5rem' }}>
         {guide.equipment?.length > 0 && (

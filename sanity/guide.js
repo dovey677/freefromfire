@@ -64,7 +64,7 @@ export default {
       title: 'Interactive Component (optional)',
       type: 'string',
       options: {
-        list: ['HeatZones'],
+        list: ['HeatZones', 'KamadoVentSimulator'],
       },
     },
     {
