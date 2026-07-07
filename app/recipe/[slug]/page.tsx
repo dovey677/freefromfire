@@ -1,4 +1,4 @@
-import { client } from '../../../lib/sanity'
+import { serverClient as client } from '../../../lib/sanityServer'
 import Link from 'next/link'
 import IngredientList from '../../components/IngredientList'
 import CollapsibleSection from '../../components/CollapsibleSection'
