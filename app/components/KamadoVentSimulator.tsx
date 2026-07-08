@@ -2,6 +2,8 @@
 
 import { useState, useMemo } from 'react'
 
+type Deflector = 'none' | 'single' | 'double'
+
 const GLOW_POSITIONS = [
   { id: 'coal-glow-1', cx: 122, cy: 288, rx: 10, ry: 6 },
   { id: 'coal-glow-2', cx: 160, cy: 283, rx: 11, ry: 6 },
@@ -10,7 +12,7 @@ const GLOW_POSITIONS = [
   { id: 'coal-glow-5', cx: 180, cy: 299, rx: 8, ry: 5 },
 ]
 
-function computeState(intake: number, exhaust: number) {
+function computeState(intake: number, exhaust: number, deflector: Deflector) {
   const i = intake
   const e = exhaust
 
@@ -93,6 +95,15 @@ function computeState(intake: number, exhaust: number) {
     }
   }
 
+  let deflectorCeiling: number | null = null
+  if (deflector === 'single') deflectorCeiling = 220
+  if (deflector === 'double') deflectorCeiling = 150
+
+  const cappedByDeflector = deflectorCeiling !== null && temp > deflectorCeiling
+  if (deflectorCeiling !== null) {
+    temp = Math.min(temp, deflectorCeiling)
+  }
+
   const glowStrength = Math.max(0.15, fireStrength)
   const flameHeight = 14 + fireStrength * 80
   const topY = Math.max(216, 280 - flameHeight)
@@ -114,17 +125,32 @@ function computeState(intake: number, exhaust: number) {
     flameD,
     flameFill,
     flameOpacity,
+    cappedByDeflector,
   }
+}
+
+const buttonStyle: React.CSSProperties = {
+  background: 'transparent',
+  border: '1px solid #E85C2B',
+  borderRadius: 8,
+  padding: '8px 14px',
+  fontSize: 13,
+  fontFamily: 'Inter, sans-serif',
+  cursor: 'pointer',
+  color: '#EAD7C5',
 }
 
 export default function KamadoVentSimulator() {
   const [intake, setIntake] = useState(50)
   const [exhaust, setExhaust] = useState(50)
+  const [deflector, setDeflector] = useState<Deflector>('none')
+  const [tempUnit, setTempUnit] = useState<'C' | 'F'>('C')
 
-  const state = useMemo(() => computeState(intake, exhaust), [intake, exhaust])
+  const state = useMemo(() => computeState(intake, exhaust, deflector), [intake, exhaust, deflector])
+  const displayTemp = tempUnit === 'C' ? state.temp : Math.round((state.temp * 9) / 5 + 32)
 
-  const intakeFillWidth = (96 * intake) / 100
-  const exhaustFillWidth = (96 * exhaust) / 100
+  const chimneyFillWidth = (54 * exhaust) / 100 // fits inside the 60-wide chimney cap
+  const baseFillWidth = (60 * intake) / 100 // fits inside the 68-wide base vent slot
 
   const presets = {
     low: () => {
@@ -134,6 +160,7 @@ export default function KamadoVentSimulator() {
     sear: () => {
       setIntake(100)
       setExhaust(100)
+      setDeflector('none')
     },
     choke: () => {
       setIntake(80)
@@ -145,11 +172,17 @@ export default function KamadoVentSimulator() {
     },
   }
 
+  const deflectorOptions: { id: Deflector; label: string }[] = [
+    { id: 'none', label: 'Direct' },
+    { id: 'single', label: 'Indirect' },
+    { id: 'double', label: 'Double indirect' },
+  ]
+
   return (
-    <section style={{ backgroundColor: '#1F1F1F', padding: '1.5rem 1.25rem' }}>
+    <section style={{ backgroundColor: '#1F1F1F', padding: '1.5rem 1.25rem', minHeight: '100vh' }}>
       <div
         style={{
-          maxWidth: 480,
+          maxWidth: 420,
           margin: '0 auto',
           display: 'flex',
           flexDirection: 'column',
@@ -163,27 +196,66 @@ export default function KamadoVentSimulator() {
           intake vent control fire temperature, airflow and smoke colour
         </h2>
 
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
-          <svg viewBox="0 0 100 36" style={{ width: 120 }} role="img" aria-hidden="true">
-            <rect x="2" y="2" width="96" height="32" rx="6" fill="#0F0F0E" />
-            <rect x="2" y="2" width={exhaustFillWidth} height="32" rx="6" fill="#EAD7C5" />
-            <rect x="2" y="2" width="96" height="32" rx="6" fill="none" stroke="#5A5A56" strokeWidth={2} />
-          </svg>
-          <span style={{ fontSize: 13, color: '#C9C6BF' }}>
-            Exhaust <span style={{ fontWeight: 600, color: '#F7F5F2' }}>{exhaust}%</span>
-          </span>
+        <div style={{ width: '100%', maxWidth: 320, marginBottom: '1.25rem' }}>
+          <p
+            style={{
+              fontSize: 11,
+              letterSpacing: '0.12em',
+              textTransform: 'uppercase',
+              color: '#7A8F6A',
+              textAlign: 'center',
+              margin: '0 0 6px',
+            }}
+          >
+            Grill setup
+          </p>
+          <div style={{ display: 'flex', backgroundColor: '#141414', borderRadius: 10, padding: 4, gap: 4 }}>
+            {deflectorOptions.map((opt) => (
+              <button
+                key={opt.id}
+                type="button"
+                onClick={() => setDeflector(opt.id)}
+                style={{
+                  flex: 1,
+                  padding: '8px 6px',
+                  borderRadius: 7,
+                  border: 'none',
+                  cursor: 'pointer',
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: 12,
+                  fontWeight: deflector === opt.id ? 600 : 400,
+                  backgroundColor: deflector === opt.id ? '#E85C2B' : 'transparent',
+                  color: deflector === opt.id ? '#1F1F1F' : '#C9C6BF',
+                  transition: 'background-color 0.15s, color 0.15s',
+                }}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div style={{ width: '100%', maxWidth: 320, marginBottom: '0.5rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
+            <span style={{ fontSize: 12, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#7A8F6A' }}>
+              Top vent
+            </span>
+            <span style={{ fontSize: 13, color: '#C9C6BF' }}>
+              <span style={{ fontWeight: 600, color: '#F7F5F2' }}>{exhaust}%</span>
+            </span>
+          </div>
           <input
             type="range"
             min={0}
             max={100}
             step={1}
             value={exhaust}
-            onChange={(ev) => setExhaust(parseInt(ev.target.value, 10))}
-            style={{ width: 160, accentColor: '#E85C2B' }}
+            onChange={(ev: React.ChangeEvent<HTMLInputElement>) => setExhaust(parseInt(ev.target.value, 10))}
+            style={{ width: '100%', accentColor: '#E85C2B' }}
           />
         </div>
 
-        <svg viewBox="0 -20 320 390" style={{ width: 220, height: 'auto', margin: '0' }} role="img" aria-hidden="true">
+        <svg viewBox="0 -20 320 390" style={{ width: 280, height: 'auto', margin: '0.5rem 0' }} role="img" aria-hidden="true">
           <path
             d="M148,80 C140,55 162,46 154,18 M160,82 C160,52 178,48 168,12 M172,80 C184,58 166,44 178,16"
             fill="none"
@@ -193,7 +265,8 @@ export default function KamadoVentSimulator() {
             opacity={state.smokeOpacity}
           />
 
-          <rect x="145" y="66" width="30" height="22" rx="4" fill="#2A2A28" stroke="#5A5A56" strokeWidth={2.5} />
+          <rect x="130" y="66" width="60" height="22" rx="4" fill="#2A2A28" stroke="#5A5A56" strokeWidth={2.5} />
+          <rect x="133" y="70" width={chimneyFillWidth} height="14" rx="2" fill="#EAD7C5" opacity={0.85} />
 
           <path
             d="M50,188 C50,124 95,88 160,88 C225,88 270,124 270,188 L270,194 C270,198 264,200 258,200 L62,200 C56,200 50,198 50,194 Z"
@@ -203,7 +276,7 @@ export default function KamadoVentSimulator() {
           />
 
           <path
-            d="M44,200 C44,278 56,308 160,308 C264,308 276,278 276,200 Z"
+            d="M44,200 C44,294 56,330 160,330 C264,330 276,294 276,200 Z"
             fill="#2A2A28"
             stroke="#5A5A56"
             strokeWidth={3}
@@ -213,7 +286,8 @@ export default function KamadoVentSimulator() {
           <rect x="-2" y="226" width="46" height="14" rx="3" fill="#2A2A28" stroke="#5A5A56" strokeWidth={2.5} />
           <rect x="276" y="226" width="46" height="14" rx="3" fill="#2A2A28" stroke="#5A5A56" strokeWidth={2.5} />
 
-          <rect x="60" y="312" width="200" height="20" rx="4" fill="#2A2A28" stroke="#5A5A56" strokeWidth={3} />
+          <rect x="126" y="308" width="68" height="18" rx="4" fill="#2A2A28" stroke="#5A5A56" strokeWidth={3} />
+          <rect x="130" y="311" width={baseFillWidth} height="12" rx="2" fill="#EAD7C5" opacity={0.85} />
           <rect x="80" y="330" width="160" height="14" fill="#2A2A28" stroke="#5A5A56" strokeWidth={2.5} />
           <circle cx="100" cy="358" r="16" fill="#3A3A38" stroke="#5A5A56" strokeWidth={2.5} />
           <circle cx="220" cy="358" r="16" fill="#3A3A38" stroke="#5A5A56" strokeWidth={2.5} />
@@ -243,78 +317,122 @@ export default function KamadoVentSimulator() {
             ))}
             <path d={state.flameD} fill={state.flameFill} opacity={state.flameOpacity} />
           </g>
+          <line x1="88" y1="308" x2="232" y2="308" stroke="#5A5A56" strokeWidth={2} opacity={0.7} />
+
+          {deflector !== 'none' && (
+            <rect x="54" y="232" width="212" height="9" rx="3" fill="#3A3A38" stroke="#7A8F6A" strokeWidth={1.5} />
+          )}
+          {deflector === 'double' && (
+            <rect x="54" y="216" width="212" height="9" rx="3" fill="#3A3A38" stroke="#7A8F6A" strokeWidth={1.5} />
+          )}
         </svg>
 
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
+        <div style={{ width: '100%', maxWidth: 320, marginTop: '0.5rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
+            <span style={{ fontSize: 12, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#7A8F6A' }}>
+              Bottom vent
+            </span>
+            <span style={{ fontSize: 13, color: '#C9C6BF' }}>
+              <span style={{ fontWeight: 600, color: '#F7F5F2' }}>{intake}%</span>
+            </span>
+          </div>
           <input
             type="range"
             min={0}
             max={100}
             step={1}
             value={intake}
-            onChange={(ev) => setIntake(parseInt(ev.target.value, 10))}
-            style={{ width: 160, accentColor: '#E85C2B' }}
+            onChange={(ev: React.ChangeEvent<HTMLInputElement>) => setIntake(parseInt(ev.target.value, 10))}
+            style={{ width: '100%', accentColor: '#E85C2B' }}
           />
-          <span style={{ fontSize: 13, color: '#C9C6BF' }}>
-            Intake <span style={{ fontWeight: 600, color: '#F7F5F2' }}>{intake}%</span>
-          </span>
-          <svg viewBox="0 0 100 36" style={{ width: 120 }} role="img" aria-hidden="true">
-            <rect x="2" y="2" width="96" height="32" rx="6" fill="#0F0F0E" />
-            <rect x="2" y="2" width={intakeFillWidth} height="32" rx="6" fill="#EAD7C5" />
-            <rect x="2" y="2" width="96" height="32" rx="6" fill="none" stroke="#5A5A56" strokeWidth={2} />
-          </svg>
         </div>
 
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
-            gap: 8,
-            width: '100%',
-            marginTop: '0.75rem',
-          }}
-        >
-          <div style={{ background: '#2A2A28', borderRadius: 8, padding: '0.6rem 0.75rem' }}>
-            <p style={{ margin: '0 0 2px', fontSize: 12, color: '#7A8F6A' }}>Dome temp</p>
-            <p
-              style={{
-                margin: 0,
-                fontSize: 19,
-                fontWeight: 500,
-                fontFamily: 'Oswald, sans-serif',
-                color: '#F7F5F2',
-              }}
-            >
-              {state.temp}C
-            </p>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '1rem', width: '100%' }}>
+          <div
+            style={{
+              display: 'flex',
+              width: '100%',
+              maxWidth: 340,
+              backgroundColor: '#241811',
+              borderRadius: 12,
+              border: '1px solid #3A2A1E',
+              borderTop: '3px solid #E85C2B',
+              overflow: 'hidden',
+            }}
+          >
+            <div style={{ flex: 1, textAlign: 'center', padding: '14px 6px' }}>
+              <p
+                style={{
+                  fontSize: 11,
+                  letterSpacing: '0.12em',
+                  textTransform: 'uppercase',
+                  color: '#C48A5A',
+                  margin: '0 0 6px',
+                }}
+              >
+                Temperature
+              </p>
+              <p style={{ margin: 0, fontSize: 17, fontWeight: 700, fontFamily: 'Oswald, sans-serif', color: '#F7F5F2' }}>
+                {displayTemp}°{tempUnit}
+              </p>
+            </div>
+
+            <div style={{ flex: 1, textAlign: 'center', padding: '14px 6px', borderLeft: '1px solid #3A2A1E' }}>
+              <p
+                style={{
+                  fontSize: 11,
+                  letterSpacing: '0.12em',
+                  textTransform: 'uppercase',
+                  color: '#C48A5A',
+                  margin: '0 0 6px',
+                }}
+              >
+                Airflow
+              </p>
+              <p style={{ margin: 0, fontSize: 17, fontWeight: 700, fontFamily: 'Oswald, sans-serif', color: '#F7F5F2' }}>
+                {state.flowLabel}
+              </p>
+            </div>
+
+            <div style={{ flex: 1, textAlign: 'center', padding: '14px 6px', borderLeft: '1px solid #3A2A1E' }}>
+              <p
+                style={{
+                  fontSize: 11,
+                  letterSpacing: '0.12em',
+                  textTransform: 'uppercase',
+                  color: '#C48A5A',
+                  margin: '0 0 6px',
+                }}
+              >
+                Smoke
+              </p>
+              <p style={{ margin: 0, fontSize: 17, fontWeight: 700, fontFamily: 'Oswald, sans-serif', color: '#F7F5F2' }}>
+                {state.burnLabel}
+              </p>
+            </div>
           </div>
-          <div style={{ background: '#2A2A28', borderRadius: 8, padding: '0.6rem 0.75rem' }}>
-            <p style={{ margin: '0 0 2px', fontSize: 12, color: '#7A8F6A' }}>Airflow</p>
-            <p
-              style={{
-                margin: 0,
-                fontSize: 19,
-                fontWeight: 500,
-                fontFamily: 'Oswald, sans-serif',
-                color: '#F7F5F2',
-              }}
-            >
-              {state.flowLabel}
-            </p>
-          </div>
-          <div style={{ background: '#2A2A28', borderRadius: 8, padding: '0.6rem 0.75rem' }}>
-            <p style={{ margin: '0 0 2px', fontSize: 12, color: '#7A8F6A' }}>Smoke</p>
-            <p
-              style={{
-                margin: 0,
-                fontSize: 19,
-                fontWeight: 500,
-                fontFamily: 'Oswald, sans-serif',
-                color: '#F7F5F2',
-              }}
-            >
-              {state.burnLabel}
-            </p>
+
+          <div style={{ display: 'flex', justifyContent: 'center', gap: 4, marginTop: 8 }}>
+            {(['C', 'F'] as const).map((unit) => (
+              <button
+                key={unit}
+                type="button"
+                onClick={() => setTempUnit(unit)}
+                style={{
+                  border: 'none',
+                  borderRadius: 5,
+                  padding: '3px 10px',
+                  fontSize: 11,
+                  fontFamily: 'Inter, sans-serif',
+                  fontWeight: tempUnit === unit ? 600 : 400,
+                  cursor: 'pointer',
+                  backgroundColor: tempUnit === unit ? '#E85C2B' : '#141414',
+                  color: tempUnit === unit ? '#1F1F1F' : '#C9C6BF',
+                }}
+              >
+                °{unit}
+              </button>
+            ))}
           </div>
         </div>
 
@@ -325,13 +443,30 @@ export default function KamadoVentSimulator() {
             lineHeight: 1.5,
             textAlign: 'center',
             color: '#C9C6BF',
-            maxWidth: 480,
+            maxWidth: 400,
           }}
         >
           {state.explain}
         </p>
 
-        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', justifyContent: 'center', marginTop: '0.6rem' }}>
+        {state.cappedByDeflector && (
+          <p
+            style={{
+              margin: '0.4rem 0 0',
+              fontSize: 12,
+              lineHeight: 1.5,
+              textAlign: 'center',
+              color: '#7A8F6A',
+              maxWidth: 400,
+            }}
+          >
+            Vent settings alone would run hotter here, but the deflector plate{deflector === 'double' ? 's' : ''} limit
+            the air gap to the grate, capping the ceiling. This assumes plates sized correctly for your grill —
+            undersized or ill-fitting plates leave gaps at the edges and won't cap heat as tightly.
+          </p>
+        )}
+
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', justifyContent: 'center', marginTop: '0.8rem' }}>
           <button type="button" onClick={presets.low} style={buttonStyle}>
             Low and slow
           </button>
@@ -348,15 +483,4 @@ export default function KamadoVentSimulator() {
       </div>
     </section>
   )
-}
-
-const buttonStyle: React.CSSProperties = {
-  background: 'transparent',
-  border: '1px solid #E85C2B',
-  borderRadius: 8,
-  padding: '8px 14px',
-  fontSize: 13,
-  fontFamily: 'Inter, sans-serif',
-  cursor: 'pointer',
-  color: '#EAD7C5',
 }
