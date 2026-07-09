@@ -6,7 +6,7 @@ import baseRecipe from './sanity/baserecipe'
 import schoolLesson from './sanity/schoolLesson'
 
 export default defineConfig({
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || '95tiozfj',
   dataset: 'production',
   title: 'Free From Fire',
   plugins: [structureTool()],
