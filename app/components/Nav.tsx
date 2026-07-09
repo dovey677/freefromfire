@@ -59,7 +59,7 @@ export default function Nav() {
       </div>
 
       {menuOpen && (
-        <div className="mobile-menu" style={{ display: 'none', flexDirection: 'column', gap: '0', paddingTop: '1rem', borderTop: '1px solid #2a2a2a', marginTop: '0.75rem', paddingLeft: '0.5rem' }}>
+        <div className="mobile-menu" style={{ display: 'none', flexDirection: 'column', gap: '0', paddingTop: '1rem', borderTop: '1px solid #2a2a2a', marginTop: '0.75rem', paddingLeft: '1.25rem' }}>
           <Link href="/recipes" onClick={() => setMenuOpen(false)} style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.875rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#EAD7C5', textDecoration: 'none', padding: '0.875rem 0', borderBottom: '1px solid #2a2a2a' }}>
             Recipes
           </Link>
