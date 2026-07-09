@@ -14,6 +14,7 @@ export type MeatCut = {
   notes?: string
   image?: string
   doneness: Doneness[]
+  restRiseC?: number
 }
 
 export async function getMeatCuts(): Promise<MeatCut[]> {
@@ -25,7 +26,8 @@ export async function getMeatCuts(): Promise<MeatCut[]> {
       category,
       notes,
       "image": image.asset->url,
-      doneness[]{ label, tempC, note }
+      doneness[]{ label, tempC, note },
+      restRiseC
     }`
   )
 }

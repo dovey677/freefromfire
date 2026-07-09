@@ -4,6 +4,7 @@ import { useState, useMemo } from 'react'
 import type { MeatCut, Doneness } from '../../lib/meatCuts'
 
 const CATEGORIES = ['All', 'Beef', 'Pork', 'Lamb', 'Poultry', 'Fish & Seafood', 'Game']
+const DEFAULT_REST_RISE_C = 3
 
 function toF(c: number) {
   return Math.round((c * 9) / 5 + 32)
@@ -41,6 +42,19 @@ export default function TemperatureGuide({ cuts }: { cuts: MeatCut[] }) {
   const [unit, setUnit] = useState<'C' | 'F'>('C')
   const [openCutId, setOpenCutId] = useState<string | null>(null)
   const [selectedDoneness, setSelectedDoneness] = useState<Record<string, number>>({})
+  const [openGroups, setOpenGroups] = useState<Set<string>>(new Set())
+
+  const toggleGroup = (cat: string) => {
+    setOpenGroups((prev) => {
+      const next = new Set(prev)
+      if (next.has(cat)) {
+        next.delete(cat)
+      } else {
+        next.add(cat)
+      }
+      return next
+    })
+  }
 
   const filtered = useMemo(() => {
     return cuts.filter((cut) => {
@@ -62,6 +76,12 @@ export default function TemperatureGuide({ cuts }: { cuts: MeatCut[] }) {
       .filter((g) => g.items.length > 0)
   }, [filtered, category])
 
+  // A group shows its cuts if manually opened, or automatically while the
+  // person is searching or has narrowed to a single category (nothing to
+  // hide in that case).
+  const isGroupExpanded = (cat: string) =>
+    openGroups.has(cat) || query.trim() !== '' || category !== 'All'
+
   const renderCut = (cut: MeatCut) => {
     const isOpen = openCutId === cut._id
     const hasChoice = cut.doneness && cut.doneness.length > 1
@@ -76,6 +96,12 @@ export default function TemperatureGuide({ cuts }: { cuts: MeatCut[] }) {
     const rulerPct = activeDoneness
       ? Math.max(0, Math.min(100, ((activeDoneness.tempC - rulerMin) / (rulerMax - rulerMin)) * 100))
       : 0
+
+    // Carryover cooking: only relevant for cuts with a real doneness choice
+    // (steaks, roasts). Never suggested for single-target safety cuts
+    // (poultry, ground meat) — those must be cooked to temp, not rested to it.
+    const restRise = cut.restRiseC ?? DEFAULT_REST_RISE_C
+    const pullTempC = activeDoneness ? activeDoneness.tempC - restRise : undefined
 
     const goToIndex = (i: number) => {
       const clamped = Math.max(0, Math.min((cut.doneness?.length ?? 1) - 1, i))
@@ -202,6 +228,25 @@ export default function TemperatureGuide({ cuts }: { cuts: MeatCut[] }) {
                 ›
               </button>
             </div>
+
+            {/* Carryover cooking guidance — only for genuine doneness choices */}
+            {hasChoice && pullTempC !== undefined && (
+              <p
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '0.8rem',
+                  color: '#7A8F6A',
+                  textAlign: 'center',
+                  margin: '0 0 1rem',
+                }}
+              >
+                Remove from heat at{' '}
+                <span style={{ color: '#EAD7C5', fontWeight: 600 }}>
+                  {displayTemp(pullTempC, unit)}°{unit}
+                </span>{' '}
+                — it will rise to {displayTemp(activeDoneness.tempC, unit)}°{unit} while resting
+              </p>
+            )}
 
             {/* Ruler with pointer — only when there's a real range */}
             {hasChoice && (
@@ -402,37 +447,64 @@ export default function TemperatureGuide({ cuts }: { cuts: MeatCut[] }) {
         ))}
       </div>
 
-      {/* Cut list — grouped by category */}
+      {/* Cut list — grouped by category, collapsible */}
       {filtered.length === 0 && (
         <p style={{ color: '#7A8F6A', fontSize: '0.9rem' }}>No cuts match your search yet.</p>
       )}
 
-      {groups.map((group) => (
-        <div key={group.category} style={{ marginBottom: '2rem' }}>
-          <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.6rem', marginBottom: '0.5rem' }}>
-            <h3
+      {groups.map((group) => {
+        const expanded = isGroupExpanded(group.category)
+        const canToggle = query.trim() === '' && category === 'All'
+
+        return (
+          <div key={group.category} style={{ marginBottom: '1rem' }}>
+            <button
+              onClick={() => canToggle && toggleGroup(group.category)}
+              disabled={!canToggle}
               style={{
-                fontFamily: 'Oswald, sans-serif',
-                fontSize: '1rem',
-                letterSpacing: '0.1em',
-                textTransform: 'uppercase',
-                color: '#EAD7C5',
-                margin: 0,
+                width: '100%',
+                background: 'none',
+                border: 'none',
+                padding: 0,
+                cursor: canToggle ? 'pointer' : 'default',
+                textAlign: 'left',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                marginBottom: '0.5rem',
               }}
             >
-              {group.category}
-            </h3>
-            <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', color: '#7A8F6A' }}>
-              {group.items.length}
-            </span>
-          </div>
-          <div style={{ width: '2.5rem', height: '2px', backgroundColor: '#E85C2B', marginBottom: '0.9rem' }} />
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.6rem' }}>
+                <h3
+                  style={{
+                    fontFamily: 'Oswald, sans-serif',
+                    fontSize: '1rem',
+                    letterSpacing: '0.1em',
+                    textTransform: 'uppercase',
+                    color: '#EAD7C5',
+                    margin: 0,
+                  }}
+                >
+                  {group.category}
+                </h3>
+                <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', color: '#7A8F6A' }}>
+                  {group.items.length}
+                </span>
+              </div>
+              {canToggle && (
+                <span style={{ color: '#E85C2B', fontSize: '1.1rem' }}>{expanded ? '−' : '+'}</span>
+              )}
+            </button>
+            <div style={{ width: '2.5rem', height: '2px', backgroundColor: '#E85C2B', marginBottom: expanded ? '0.9rem' : 0 }} />
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-            {group.items.map((cut) => renderCut(cut))}
+            {expanded && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                {group.items.map((cut) => renderCut(cut))}
+              </div>
+            )}
           </div>
-        </div>
-      ))}
+        )
+      })}
     </div>
   )
 }

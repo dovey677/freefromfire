@@ -40,6 +40,13 @@ export default {
       rows: 2,
     },
     {
+      name: 'restRiseC',
+      title: 'Expected Rest Rise (°C, optional)',
+      description:
+        'How many degrees this cut typically climbs after removal from heat, while resting. Leave blank to use the default (3°C). Thick roasts and large joints rise more (4–6°C); thin steaks and quick cooks rise less (1–2°C).',
+      type: 'number',
+    },
+    {
       name: 'doneness',
       title: 'Doneness Levels',
       type: 'array',
