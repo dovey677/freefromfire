@@ -5,6 +5,7 @@ import guide from './sanity/guide'
 import baseRecipe from './sanity/baserecipe'
 import schoolLesson from './sanity/schoolLesson'
 import siteSettings from './sanity/siteSettings'
+import meatCut from './sanity/meatCut'
 
 export default defineConfig({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || '95tiozfj',
@@ -31,6 +32,6 @@ export default defineConfig({
     }),
   ],
   schema: {
-    types: [recipe, guide, baseRecipe, schoolLesson, siteSettings],
+    types: [recipe, guide, baseRecipe, schoolLesson, siteSettings, meatCut],
   },
 })

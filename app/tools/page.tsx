@@ -13,6 +13,12 @@ const TOOLS = [
     description: 'Understand how to set up your fire for even, controlled cooking every time.',
     emoji: '🌡️',
   },
+  {
+    slug: 'temperature-guide',
+    title: 'Meat Temperature Guide',
+    description: 'Search any cut and get the target internal temperature for every doneness level, with a live coal-glow readout.',
+    emoji: '🥩',
+  },
 ]
 
 export default function ToolsPage() {
