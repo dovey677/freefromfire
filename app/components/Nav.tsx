@@ -82,12 +82,8 @@ export default function Nav() {
               textTransform: 'uppercase',
               color: '#F7F5F2',
               textDecoration: 'none',
-              padding: '0.75rem 1rem',
+              padding: '0.875rem 0',
               backgroundColor: '#E85C2B',
-              borderRadius: '999px',
-              display: 'inline-block',
-              marginTop: '0.5rem',
-              marginBottom: '0.25rem',
             }}
           >
             BBQ School
