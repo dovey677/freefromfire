@@ -44,11 +44,11 @@ export default function ToolsPage() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           {TOOLS.map((tool) => (
             <Link key={tool.slug} href={`/tools/${tool.slug}`} style={{ textDecoration: 'none' }}>
-              <div style={{ backgroundColor: '#2a2020', border: '1px solid #3a2a2a', borderRadius: '12px', padding: '2rem', display: 'flex', gap: '1.5rem', alignItems: 'center', transition: 'border-color 0.2s' }}
+              <div style={{ backgroundColor: '#2a2020', border: '1px solid #3a2a2a', borderRadius: '12px', padding: '1.25rem 1.5rem', display: 'flex', gap: '1.5rem', alignItems: 'center', transition: 'border-color 0.2s' }}
                 className="hover:border-orange-600 cursor-pointer">
-                <span style={{ fontSize: '2.5rem', flexShrink: 0 }}>{tool.emoji}</span>
+                <span style={{ fontSize: '2.5rem', flexShrink: 0, lineHeight: 1 }}>{tool.emoji}</span>
                 <div>
-                  <h3 style={{ fontFamily: 'Oswald, sans-serif', fontSize: '1.5rem', fontWeight: 600, color: '#F7F5F2', marginBottom: '0.5rem', letterSpacing: '0.02em' }}>
+                  <h3 style={{ fontFamily: 'Oswald, sans-serif', fontSize: '1.5rem', fontWeight: 600, color: '#F7F5F2', margin: '0 0 0.35rem', letterSpacing: '0.02em' }}>
                     {tool.title}
                   </h3>
                   <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', color: '#7A8F6A', lineHeight: 1.5, margin: 0 }}>
