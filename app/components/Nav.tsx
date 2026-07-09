@@ -30,6 +30,9 @@ export default function Nav() {
           <Link href="/bbq-school" style={{ fontFamily: 'Inter, sans-serif', fontSize: 'clamp(0.65rem, 1.5vw, 0.875rem)', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#EAD7C5', textDecoration: 'none', whiteSpace: 'nowrap' }}>
             BBQ School
           </Link>
+          <Link href="/tools" style={{ fontFamily: 'Inter, sans-serif', fontSize: 'clamp(0.65rem, 1.5vw, 0.875rem)', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#EAD7C5', textDecoration: 'none', whiteSpace: 'nowrap' }}>
+            Tools
+          </Link>
         </div>
 
         <button
