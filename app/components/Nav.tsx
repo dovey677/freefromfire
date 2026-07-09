@@ -27,11 +27,11 @@ export default function Nav() {
           <Link href="/base-recipes" style={{ fontFamily: 'Inter, sans-serif', fontSize: 'clamp(0.65rem, 1.5vw, 0.875rem)', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#EAD7C5', textDecoration: 'none', whiteSpace: 'nowrap' }}>
             Base Recipes
           </Link>
-          <Link href="/bbq-school" style={{ fontFamily: 'Inter, sans-serif', fontSize: 'clamp(0.65rem, 1.5vw, 0.875rem)', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#EAD7C5', textDecoration: 'none', whiteSpace: 'nowrap' }}>
-            BBQ School
-          </Link>
           <Link href="/tools" style={{ fontFamily: 'Inter, sans-serif', fontSize: 'clamp(0.65rem, 1.5vw, 0.875rem)', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#EAD7C5', textDecoration: 'none', whiteSpace: 'nowrap' }}>
             Tools
+          </Link>
+          <Link href="/bbq-school" style={{ fontFamily: 'Inter, sans-serif', fontSize: 'clamp(0.65rem, 1.5vw, 0.875rem)', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#EAD7C5', textDecoration: 'none', whiteSpace: 'nowrap' }}>
+            BBQ School
           </Link>
         </div>
 
@@ -54,6 +54,9 @@ export default function Nav() {
           </Link>
           <Link href="/base-recipes" onClick={() => setMenuOpen(false)} style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.875rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#EAD7C5', textDecoration: 'none', padding: '0.875rem 0', borderBottom: '1px solid #2a2a2a' }}>
             Base Recipes
+          </Link>
+          <Link href="/tools" onClick={() => setMenuOpen(false)} style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.875rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#EAD7C5', textDecoration: 'none', padding: '0.875rem 0', borderBottom: '1px solid #2a2a2a' }}>
+            Tools
           </Link>
           <Link href="/bbq-school" onClick={() => setMenuOpen(false)} style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.875rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#EAD7C5', textDecoration: 'none', padding: '0.875rem 0' }}>
             BBQ School
