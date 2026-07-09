@@ -30,7 +30,21 @@ export default function Nav() {
           <Link href="/tools" style={{ fontFamily: 'Inter, sans-serif', fontSize: 'clamp(0.65rem, 1.5vw, 0.875rem)', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#EAD7C5', textDecoration: 'none', whiteSpace: 'nowrap' }}>
             Tools
           </Link>
-          <Link href="/bbq-school" style={{ fontFamily: 'Inter, sans-serif', fontSize: 'clamp(0.65rem, 1.5vw, 0.875rem)', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#EAD7C5', textDecoration: 'none', whiteSpace: 'nowrap' }}>
+          <Link
+            href="/bbq-school"
+            style={{
+              fontFamily: 'Inter, sans-serif',
+              fontSize: 'clamp(0.65rem, 1.5vw, 0.875rem)',
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              color: '#F7F5F2',
+              textDecoration: 'none',
+              whiteSpace: 'nowrap',
+              backgroundColor: '#E85C2B',
+              padding: '0.4rem 1rem',
+              borderRadius: '999px',
+            }}
+          >
             BBQ School
           </Link>
         </div>
@@ -58,7 +72,24 @@ export default function Nav() {
           <Link href="/tools" onClick={() => setMenuOpen(false)} style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.875rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#EAD7C5', textDecoration: 'none', padding: '0.875rem 0', borderBottom: '1px solid #2a2a2a' }}>
             Tools
           </Link>
-          <Link href="/bbq-school" onClick={() => setMenuOpen(false)} style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.875rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#EAD7C5', textDecoration: 'none', padding: '0.875rem 0' }}>
+          <Link
+            href="/bbq-school"
+            onClick={() => setMenuOpen(false)}
+            style={{
+              fontFamily: 'Inter, sans-serif',
+              fontSize: '0.875rem',
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              color: '#F7F5F2',
+              textDecoration: 'none',
+              padding: '0.75rem 1rem',
+              backgroundColor: '#E85C2B',
+              borderRadius: '999px',
+              display: 'inline-block',
+              marginTop: '0.5rem',
+              marginBottom: '0.25rem',
+            }}
+          >
             BBQ School
           </Link>
         </div>
