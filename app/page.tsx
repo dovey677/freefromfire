@@ -5,7 +5,7 @@ import HeroVideo from './components/HeroVideo'
 export const revalidate = 60
 
 async function getRecipes() {
-  return client.fetch(`*[_type == "recipe"]{
+  return client.fetch(`*[_type == "recipe"] | order(_createdAt desc) {
     _id,
     title,
     category,
@@ -18,6 +18,7 @@ async function getRecipes() {
     "thumbnail": thumbnail.asset->url
   }`)
 }
+
 
 export default async function Home() {
   const recipes = await getRecipes()

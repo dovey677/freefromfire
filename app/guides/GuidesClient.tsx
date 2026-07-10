@@ -43,25 +43,47 @@ export default function GuidesClient({ initialGuides }: { initialGuides: any[] }
       </section>
 
       <section style={{ padding: '2rem 2rem 0', maxWidth: '1200px', margin: '0 auto' }}>
-        <input
-          type="text"
-          placeholder="Search guides..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          style={{
-            width: '100%',
-            padding: '0.875rem 1.25rem',
-            backgroundColor: '#2a2020',
-            border: '1px solid #3a2a2a',
-            borderRadius: '8px',
-            color: '#F7F5F2',
-            fontFamily: 'Inter, sans-serif',
-            fontSize: '0.95rem',
-            outline: 'none',
-            marginBottom: '1.25rem',
-            boxSizing: 'border-box',
-          }}
-        />
+        <div style={{ position: 'relative', marginBottom: '1.25rem' }}>
+          <input
+            type="text"
+            placeholder="Search guides..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            style={{
+              width: '100%',
+              padding: '0.875rem 2.75rem 0.875rem 1.25rem',
+              backgroundColor: '#2a2020',
+              border: '1px solid #3a2a2a',
+              borderRadius: '8px',
+              color: '#F7F5F2',
+              fontFamily: 'Inter, sans-serif',
+              fontSize: '0.95rem',
+              outline: 'none',
+              boxSizing: 'border-box',
+            }}
+          />
+          {search && (
+            <button
+              onClick={() => setSearch('')}
+              aria-label="Clear search"
+              style={{
+                position: 'absolute',
+                right: '0.75rem',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                background: 'none',
+                border: 'none',
+                color: '#7A8F6A',
+                fontSize: '1.1rem',
+                cursor: 'pointer',
+                padding: '0.25rem',
+                lineHeight: 1,
+              }}
+            >
+              ✕
+            </button>
+          )}
+        </div>
 
         <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.7rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#7A8F6A', marginBottom: '0.75rem' }}>
           Category
@@ -121,13 +143,13 @@ export default function GuidesClient({ initialGuides }: { initialGuides: any[] }
                         </span>
                       )}
                       {guide.difficulty && (
-                        <span style={{ fontSize: '0.7rem', backgroundColor: '#2a2020', border: '1px solid #3a2a2a', color: '#7A8F6A', padding: '2px 10px', borderRadius: '999px', fontFamily: 'Inter, sans-serif', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+                        <span style={{ fontSize: '0.7rem', backgroundColor: '#7A8F6A', color: '#F7F5F2', padding: '2px 10px', borderRadius: '999px', fontFamily: 'Inter, sans-serif', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
                           {guide.difficulty}
                         </span>
                       )}
                     </div>
                     {guide.summary && (
-                      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: '#7A8F6A', lineHeight: 1.5, margin: 0 }}>
+                      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: '#7A8F6A', lineHeight: 1.5, margin: 0, display: '-webkit-box', WebkitLineClamp: 5, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                         {guide.summary}
                       </p>
                     )}
@@ -140,7 +162,7 @@ export default function GuidesClient({ initialGuides }: { initialGuides: any[] }
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             {filtered.map((guide: any) => (
               <Link key={guide._id} href={`/guides/${guide.slug}`} style={{ textDecoration: 'none' }}>
-                <div style={{ backgroundColor: '#2a2020', border: '1px solid #3a2a2a', borderRadius: '12px', overflow: 'hidden', transition: 'border-color 0.2s, transform 0.2s', display: 'flex', flexDirection: 'row', alignItems: 'stretch', minHeight: '180px' }}
+                <div style={{ backgroundColor: '#2a2020', border: '1px solid #3a2a2a', borderRadius: '12px', overflow: 'hidden', transition: 'border-color 0.2s, transform 0.2s', display: 'flex', flexDirection: 'row', alignItems: 'stretch', minHeight: '260px' }}
                   className="hover:border-orange-600 hover:-translate-y-1 cursor-pointer">
                   {guide.thumbnail ? (
                     <img src={guide.thumbnail} alt={guide.title} style={{ width: '260px', minWidth: '260px', height: '260px', objectFit: 'cover', flexShrink: 0 }} />
@@ -149,7 +171,7 @@ export default function GuidesClient({ initialGuides }: { initialGuides: any[] }
                       <span style={{ fontSize: '3rem' }}>🪵</span>
                     </div>
                   )}
-                  <div style={{ padding: '0 1.75rem', display: 'flex', flexDirection: 'column', justifyContent: 'center', flex: 1, height: '220px' }}>
+                  <div style={{ padding: '0 1.75rem', display: 'flex', flexDirection: 'column', justifyContent: 'center', flex: 1, height: '260px' }}>
                     <h3 style={{ fontFamily: 'Oswald, sans-serif', fontSize: '1.75rem', fontWeight: 600, color: '#F7F5F2', margin: '0 0 0.75rem 0', letterSpacing: '0.02em' }}>
                       {guide.title}
                     </h3>
@@ -160,13 +182,13 @@ export default function GuidesClient({ initialGuides }: { initialGuides: any[] }
                         </span>
                       )}
                       {guide.difficulty && (
-                        <span style={{ fontSize: '0.8rem', backgroundColor: '#2a2020', border: '1px solid #3a2a2a', color: '#7A8F6A', padding: '3px 12px', borderRadius: '999px', fontFamily: 'Inter, sans-serif', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+                        <span style={{ fontSize: '0.8rem', backgroundColor: '#7A8F6A', color: '#F7F5F2', padding: '3px 12px', borderRadius: '999px', fontFamily: 'Inter, sans-serif', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
                           {guide.difficulty}
                         </span>
                       )}
                     </div>
                     {guide.summary && (
-                      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.95rem', color: '#7A8F6A', lineHeight: 1.6, margin: 0, display: '-webkit-box', WebkitLineClamp: 5, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.95rem', color: '#7A8F6A', lineHeight: 1.6, margin: '0 0 0.75rem 0', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                         {guide.summary}
                       </p>
                     )}

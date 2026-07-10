@@ -43,25 +43,47 @@ export default function BaseRecipesClient({ initialBaseRecipes }: { initialBaseR
       </section>
 
       <section style={{ padding: '2rem 2rem 0', maxWidth: '1200px', margin: '0 auto' }}>
-        <input
-          type="text"
-          placeholder="Search base recipes..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          style={{
-            width: '100%',
-            padding: '0.875rem 1.25rem',
-            backgroundColor: '#2a2020',
-            border: '1px solid #3a2a2a',
-            borderRadius: '8px',
-            color: '#F7F5F2',
-            fontFamily: 'Inter, sans-serif',
-            fontSize: '0.95rem',
-            outline: 'none',
-            marginBottom: '1.25rem',
-            boxSizing: 'border-box',
-          }}
-        />
+        <div style={{ position: 'relative', marginBottom: '1.25rem' }}>
+          <input
+            type="text"
+            placeholder="Search base recipes..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            style={{
+              width: '100%',
+              padding: '0.875rem 2.75rem 0.875rem 1.25rem',
+              backgroundColor: '#2a2020',
+              border: '1px solid #3a2a2a',
+              borderRadius: '8px',
+              color: '#F7F5F2',
+              fontFamily: 'Inter, sans-serif',
+              fontSize: '0.95rem',
+              outline: 'none',
+              boxSizing: 'border-box',
+            }}
+          />
+          {search && (
+            <button
+              onClick={() => setSearch('')}
+              aria-label="Clear search"
+              style={{
+                position: 'absolute',
+                right: '0.75rem',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                background: 'none',
+                border: 'none',
+                color: '#7A8F6A',
+                fontSize: '1.1rem',
+                cursor: 'pointer',
+                padding: '0.25rem',
+                lineHeight: 1,
+              }}
+            >
+              ✕
+            </button>
+          )}
+        </div>
 
         <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.7rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#7A8F6A', marginBottom: '0.75rem' }}>
           Category
