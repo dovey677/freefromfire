@@ -121,7 +121,7 @@ export default async function Home() {
         )}
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1.5rem', alignItems: 'stretch' }}>
-          {recipes.slice(0, 6).map((recipe: any) => (
+          {recipes.slice(0, 3).map((recipe: any) => (
             <Link key={recipe._id} href={`/recipe/${recipe.slug}`} style={{ textDecoration: 'none', display: 'flex' }}>
               <div style={{ backgroundColor: '#2a2020', border: '1px solid #3a2a2a', borderRadius: '12px', overflow: 'hidden', transition: 'border-color 0.2s, transform 0.2s', display: 'flex', flexDirection: 'column', width: '100%' }}
                 className="hover:border-orange-600 hover:-translate-y-1 cursor-pointer">
