@@ -13,7 +13,10 @@ async function getGuides() {
       summary,
       freeGuide,
       "slug": slug.current,
-      "thumbnail": thumbnail.asset->url
+      thumbnail{
+        "url": asset->url,
+        hotspot
+      }
     }`
   )
 }

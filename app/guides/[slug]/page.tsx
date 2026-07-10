@@ -26,7 +26,7 @@ async function getGuide(slug: string) {
         image,
       },
       videoUrl,
-      "thumbnail": thumbnail.asset->url
+      thumbnail
     }`,
     { slug }
   )
@@ -42,7 +42,7 @@ export default async function GuidePage({ params }: any) {
       {guide.thumbnail && (
         <div style={{ width: '100%', height: '400px', overflow: 'hidden', position: 'relative' }}>
           <img
-            src={guide.thumbnail}
+            src={urlFor(guide.thumbnail).width(1600).height(800).fit('crop').url()}
             alt={guide.title}
             style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.8 }}
           />

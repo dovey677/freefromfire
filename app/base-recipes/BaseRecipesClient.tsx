@@ -125,8 +125,19 @@ export default function BaseRecipesClient({ initialBaseRecipes }: { initialBaseR
               <Link key={baseRecipe._id} href={`/base-recipes/${baseRecipe.slug}`} style={{ textDecoration: 'none' }}>
                 <div style={{ backgroundColor: '#2a2020', border: '1px solid #3a2a2a', borderRadius: '12px', overflow: 'hidden', transition: 'border-color 0.2s' }}
                   className="hover:border-orange-600 cursor-pointer">
-                  {baseRecipe.thumbnail ? (
-                    <img src={baseRecipe.thumbnail} alt={baseRecipe.title} style={{ width: '100%', height: '260px', objectFit: 'cover' }} />
+                  {baseRecipe.thumbnail?.url ? (
+                    <img
+                      src={baseRecipe.thumbnail.url}
+                      alt={baseRecipe.title}
+                      style={{
+                        width: '100%',
+                        height: '260px',
+                        objectFit: 'cover',
+                        objectPosition: baseRecipe.thumbnail.hotspot
+                          ? `${baseRecipe.thumbnail.hotspot.x * 100}% ${baseRecipe.thumbnail.hotspot.y * 100}%`
+                          : '50% 50%',
+                      }}
+                    />
                   ) : (
                     <div style={{ width: '100%', height: '200px', backgroundColor: '#1a1212', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                       <span style={{ fontSize: '3rem' }}>📖</span>
@@ -174,8 +185,21 @@ export default function BaseRecipesClient({ initialBaseRecipes }: { initialBaseR
               <Link key={baseRecipe._id} href={`/base-recipes/${baseRecipe.slug}`} style={{ textDecoration: 'none' }}>
                 <div style={{ backgroundColor: '#2a2020', border: '1px solid #3a2a2a', borderRadius: '12px', overflow: 'hidden', transition: 'border-color 0.2s, transform 0.2s', display: 'flex', flexDirection: 'row', alignItems: 'stretch', minHeight: '260px' }}
                   className="hover:border-orange-600 hover:-translate-y-1 cursor-pointer">
-                  {baseRecipe.thumbnail ? (
-                    <img src={baseRecipe.thumbnail} alt={baseRecipe.title} style={{ width: '260px', minWidth: '260px', height: '260px', objectFit: 'cover', flexShrink: 0 }} />
+                  {baseRecipe.thumbnail?.url ? (
+                    <img
+                      src={baseRecipe.thumbnail.url}
+                      alt={baseRecipe.title}
+                      style={{
+                        width: '260px',
+                        minWidth: '260px',
+                        height: '260px',
+                        objectFit: 'cover',
+                        flexShrink: 0,
+                        objectPosition: baseRecipe.thumbnail.hotspot
+                          ? `${baseRecipe.thumbnail.hotspot.x * 100}% ${baseRecipe.thumbnail.hotspot.y * 100}%`
+                          : '50% 50%',
+                      }}
+                    />
                   ) : (
                     <div style={{ width: '260px', minWidth: '260px', height: '260px', backgroundColor: '#1a1212', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                       <span style={{ fontSize: '3rem' }}>📖</span>

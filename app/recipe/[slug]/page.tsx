@@ -37,7 +37,7 @@ async function getRecipe(slug: string) {
         image,
       },
       videoUrl,
-      "thumbnail": thumbnail.asset->url
+      thumbnail
     }`,
     { slug }
   )
@@ -53,7 +53,7 @@ export default async function RecipePage({ params }: any) {
       {recipe.thumbnail && (
         <div style={{ width: '100%', height: '400px', overflow: 'hidden', position: 'relative' }}>
           <img
-            src={recipe.thumbnail}
+            src={urlFor(recipe.thumbnail).width(1600).height(800).fit('crop').url()}
             alt={recipe.title}
             style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.8 }}
           />
