@@ -387,23 +387,46 @@ export default function TemperatureGuide({ cuts }: { cuts: MeatCut[] }) {
     <div style={{ fontFamily: 'Inter, sans-serif', color: '#F7F5F2' }}>
       {/* Search + unit toggle */}
       <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '1.25rem', flexWrap: 'wrap' }}>
-        <input
-          type="text"
-          placeholder="Search a cut (e.g. brisket, chicken thigh)..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          style={{
-            flex: 1,
-            minWidth: '200px',
-            backgroundColor: '#2a2020',
-            border: '1px solid #3a2a2a',
-            borderRadius: '8px',
-            padding: '0.65rem 1rem',
-            color: '#F7F5F2',
-            fontFamily: 'Inter, sans-serif',
-            fontSize: '0.9rem',
-          }}
-        />
+        <div style={{ position: 'relative', flex: 1, minWidth: '200px' }}>
+          <input
+            type="text"
+            placeholder="Search a cut (e.g. brisket, chicken thigh)..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            style={{
+              width: '100%',
+              backgroundColor: '#2a2020',
+              border: '1px solid #3a2a2a',
+              borderRadius: '8px',
+              padding: '0.65rem 2.5rem 0.65rem 1rem',
+              color: '#F7F5F2',
+              fontFamily: 'Inter, sans-serif',
+              fontSize: '0.9rem',
+              boxSizing: 'border-box',
+            }}
+          />
+          {query && (
+            <button
+              onClick={() => setQuery('')}
+              aria-label="Clear search"
+              style={{
+                position: 'absolute',
+                right: '0.6rem',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                background: 'none',
+                border: 'none',
+                color: '#7A8F6A',
+                fontSize: '1.1rem',
+                cursor: 'pointer',
+                padding: '0.25rem',
+                lineHeight: 1,
+              }}
+            >
+              ✕
+            </button>
+          )}
+        </div>
         <button
           onClick={() => setUnit(unit === 'C' ? 'F' : 'C')}
           style={{
