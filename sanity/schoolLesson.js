@@ -24,6 +24,14 @@ export default {
       validation: (Rule) => Rule.required(),
     },
     {
+      name: 'module',
+      title: 'Module',
+      description: 'Which module this lesson belongs to.',
+      type: 'reference',
+      to: [{ type: 'schoolModule' }],
+      validation: (Rule) => Rule.required(),
+    },
+    {
       name: 'teaser',
       title: 'Teaser',
       description: 'Public-safe preview shown to everyone, including non-payers. Never put full instructions or key techniques here.',

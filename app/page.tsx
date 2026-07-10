@@ -41,8 +41,9 @@ export default async function Home() {
             />
           </div>
           <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#7A8F6A', marginBottom: '1rem' }}>
-            Free from limits. Forged by fire.
+          Bringing barbecue to everyone.
           </p>
+
           <h1 style={{ fontFamily: 'Oswald, sans-serif', fontSize: 'clamp(3rem, 8vw, 6rem)', fontWeight: 700, color: '#F7F5F2', lineHeight: 1, marginBottom: '1.5rem', letterSpacing: '0.02em' }}>
             FIRE-COOKED.<br />
             <span style={{ color: '#E85C2B' }}>ALWAYS FREE</span><br />

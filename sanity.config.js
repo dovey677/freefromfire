@@ -2,6 +2,7 @@ import { defineConfig } from 'sanity'
 import { structureTool } from 'sanity/structure'
 import recipe from './sanity/recipe'
 import guide from './sanity/guide'
+import schoolModule from './sanity/schoolModule'
 import baseRecipe from './sanity/baserecipe'
 import schoolLesson from './sanity/schoolLesson'
 import siteSettings from './sanity/siteSettings'
@@ -32,6 +33,6 @@ export default defineConfig({
     }),
   ],
   schema: {
-    types: [recipe, guide, baseRecipe, schoolLesson, siteSettings, meatCut],
+    types: [recipe, guide, baseRecipe, schoolLesson, schoolModule, siteSettings, meatCut],
   },
 })
