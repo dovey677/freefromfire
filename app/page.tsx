@@ -1,11 +1,11 @@
-import { client } from '../lib/sanity'
+import { serverClient } from '../lib/sanityServer'
 import Link from 'next/link'
 import HeroVideo from './components/HeroVideo'
 
 export const revalidate = 60
 
 async function getRecipes() {
-  return client.fetch(`*[_type == "recipe"] | order(_createdAt desc) {
+  return serverClient.fetch(`*[_type == "recipe"] | order(_createdAt desc) {
     _id,
     title,
     category,
