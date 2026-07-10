@@ -19,7 +19,6 @@ async function getRecipes() {
   }`)
 }
 
-
 export default async function Home() {
   const recipes = await getRecipes()
 
