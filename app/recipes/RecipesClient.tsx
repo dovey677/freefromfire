@@ -170,8 +170,19 @@ export default function RecipesClient({ initialRecipes }: { initialRecipes: any[
               <Link key={recipe._id} href={`/recipe/${recipe.slug}`} style={{ textDecoration: 'none' }}>
                 <div style={{ backgroundColor: '#2a2020', border: '1px solid #3a2a2a', borderRadius: '12px', overflow: 'hidden', transition: 'border-color 0.2s' }}
                   className="hover:border-orange-600 cursor-pointer">
-                  {recipe.thumbnail ? (
-                    <img src={recipe.thumbnail} alt={recipe.title} style={{ width: '100%', height: '260px', objectFit: 'cover' }} />
+                  {recipe.thumbnail?.url ? (
+                    <img
+                      src={recipe.thumbnail.url}
+                      alt={recipe.title}
+                      style={{
+                        width: '100%',
+                        height: '260px',
+                        objectFit: 'cover',
+                        objectPosition: recipe.thumbnail.hotspot
+                          ? `${recipe.thumbnail.hotspot.x * 100}% ${recipe.thumbnail.hotspot.y * 100}%`
+                          : '50% 50%',
+                      }}
+                    />
                   ) : (
                     <div style={{ width: '100%', height: '200px', backgroundColor: '#1a1212', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                       <span style={{ fontSize: '3rem' }}>🔥</span>
@@ -222,8 +233,21 @@ export default function RecipesClient({ initialRecipes }: { initialRecipes: any[
               <Link key={recipe._id} href={`/recipe/${recipe.slug}`} style={{ textDecoration: 'none' }}>
                 <div style={{ backgroundColor: '#2a2020', border: '1px solid #3a2a2a', borderRadius: '12px', overflow: 'hidden', transition: 'border-color 0.2s, transform 0.2s', display: 'flex', flexDirection: 'row', alignItems: 'stretch', minHeight: '260px' }}
                   className="hover:border-orange-600 hover:-translate-y-1 cursor-pointer">
-                {recipe.thumbnail ? (
-                    <img src={recipe.thumbnail} alt={recipe.title} style={{ width: '260px', minWidth: '260px', height: '260px', objectFit: 'cover', flexShrink: 0 }} />
+                {recipe.thumbnail?.url ? (
+                    <img
+                      src={recipe.thumbnail.url}
+                      alt={recipe.title}
+                      style={{
+                        width: '260px',
+                        minWidth: '260px',
+                        height: '260px',
+                        objectFit: 'cover',
+                        flexShrink: 0,
+                        objectPosition: recipe.thumbnail.hotspot
+                          ? `${recipe.thumbnail.hotspot.x * 100}% ${recipe.thumbnail.hotspot.y * 100}%`
+                          : '50% 50%',
+                      }}
+                    />
                   ) : (
                     <div style={{ width: '260px', minWidth: '260px', height: '260px', backgroundColor: '#1a1212', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                       <span style={{ fontSize: '3rem' }}>🔥</span>

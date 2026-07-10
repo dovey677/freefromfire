@@ -16,7 +16,10 @@ async function getRecipes() {
       summary,
       freeRecipe,
       "slug": slug.current,
-      "thumbnail": thumbnail.asset->url
+      thumbnail{
+        "url": asset->url,
+        hotspot
+      }
     }`
   )
 }

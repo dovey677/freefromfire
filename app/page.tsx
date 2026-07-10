@@ -15,7 +15,10 @@ async function getRecipes() {
     fireMethod,
     freeRecipe,
     "slug": slug.current,
-    "thumbnail": thumbnail.asset->url
+    thumbnail{
+      "url": asset->url,
+      hotspot
+    }
   }`)
 }
 
@@ -125,11 +128,18 @@ export default async function Home() {
             <Link key={recipe._id} href={`/recipe/${recipe.slug}`} style={{ textDecoration: 'none', display: 'flex' }}>
               <div style={{ backgroundColor: '#2a2020', border: '1px solid #3a2a2a', borderRadius: '12px', overflow: 'hidden', transition: 'border-color 0.2s, transform 0.2s', display: 'flex', flexDirection: 'column', width: '100%' }}
                 className="hover:border-orange-600 hover:-translate-y-1 cursor-pointer">
-                {recipe.thumbnail ? (
+                {recipe.thumbnail?.url ? (
                   <img
-                    src={recipe.thumbnail}
+                    src={recipe.thumbnail.url}
                     alt={recipe.title}
-                    style={{ width: '100%', height: '200px', objectFit: 'cover' }}
+                    style={{
+                      width: '100%',
+                      height: '200px',
+                      objectFit: 'cover',
+                      objectPosition: recipe.thumbnail.hotspot
+                        ? `${recipe.thumbnail.hotspot.x * 100}% ${recipe.thumbnail.hotspot.y * 100}%`
+                        : '50% 50%',
+                    }}
                   />
                 ) : (
                   <div style={{ width: '100%', height: '200px', backgroundColor: '#1a1212', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
