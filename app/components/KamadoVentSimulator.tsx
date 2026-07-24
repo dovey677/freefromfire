@@ -3,6 +3,7 @@
 import { useState, useMemo } from 'react'
 
 type Deflector = 'none' | 'single' | 'double'
+type FireSize = 'small' | 'medium' | 'large'
 
 const GLOW_POSITIONS = [
   { id: 'coal-glow-1', cx: 122, cy: 288, rx: 10, ry: 6 },
@@ -12,7 +13,7 @@ const GLOW_POSITIONS = [
   { id: 'coal-glow-5', cx: 180, cy: 299, rx: 8, ry: 5 },
 ]
 
-function computeState(intake: number, exhaust: number, deflector: Deflector) {
+function computeState(intake: number, exhaust: number, deflector: Deflector, fireSize: FireSize) {
   const i = intake
   const e = exhaust
 
@@ -25,8 +26,10 @@ function computeState(intake: number, exhaust: number, deflector: Deflector) {
   let glowColor: string
   let temp: number
   let fireStrength: number
+  let cappedByDeflector = false
+  let fireSizeNote: string | null = null
 
-  if (i < 5 && e < 5) {
+  if (i < 8 && e < 8) {
     flowLabel = 'Sealed'
     burnLabel = 'Suffocating'
     explain =
@@ -37,7 +40,7 @@ function computeState(intake: number, exhaust: number, deflector: Deflector) {
     glowColor = '#5A5A56'
     temp = 60
     fireStrength = 0.05
-  } else if (i < 5) {
+  } else if (i < 8) {
     flowLabel = 'Starved'
     burnLabel = 'Bitter, thick'
     explain =
@@ -48,7 +51,7 @@ function computeState(intake: number, exhaust: number, deflector: Deflector) {
     glowColor = '#B23A1B'
     temp = 90 + i * 2
     fireStrength = 0.1
-  } else if (e < 5) {
+  } else if (e < 8) {
     flowLabel = 'Choked'
     burnLabel = 'Smouldering'
     explain =
@@ -62,7 +65,38 @@ function computeState(intake: number, exhaust: number, deflector: Deflector) {
   } else {
     const ratio = e / i
     const exhaustBonus = Math.max(0, e - i) * 0.15
-    temp = 100 + i * 3.5 + exhaustBonus
+    const fraction = (i - 8) / 92 // 0 at the 8% minimum-open threshold, 1 at fully open
+
+    // Floor and ceiling temps (°C) at 8% and 100% intake, for every combination
+    // of fire size and deflector. A bigger bed of lit coals radiates heat
+    // regardless of how closed the vents are, so it raises both ends of the
+    // range; each deflector plate blocks that direct radiant heat, so it
+    // lowers both ends. The table is built around two real-world anchor
+    // points: a small fire with no deflector can be held to ~110C, and a
+    // large fire still bottoms out around ~120C once a single deflector goes in.
+    const RANGE: Record<Deflector, Record<FireSize, [number, number]>> = {
+      none: { small: [110, 350], medium: [200, 450], large: [290, 550] },
+      single: { small: [80, 220], medium: [100, 260], large: [120, 300] },
+      double: { small: [65, 140], medium: [80, 170], large: [95, 200] },
+    }
+
+    const [floor, ceiling] = RANGE[deflector][fireSize]
+    temp = floor + fraction * (ceiling - floor) + exhaustBonus
+
+    const [noneFloor, noneCeiling] = RANGE.none[fireSize]
+    const noneTemp = noneFloor + fraction * (noneCeiling - noneFloor) + exhaustBonus
+    cappedByDeflector = deflector !== 'none' && noneTemp - temp > 15
+
+    if (deflector === 'none') {
+      if (fireSize === 'large') {
+        fireSizeNote =
+          "That's too much fuel to hold a true low-and-slow temperature without a deflector plate. Closing the vents further just smothers a fire this size rather than settling it at a steady low heat."
+      } else if (fireSize === 'small') {
+        fireSizeNote =
+          'A fire this small can be held at a genuine low-and-slow temperature even without a deflector plate, as long as both vents stay close to their minimum open setting.'
+      }
+    }
+
     fireStrength = Math.min(i, e) / 100
 
     if (ratio < 0.6) {
@@ -95,15 +129,6 @@ function computeState(intake: number, exhaust: number, deflector: Deflector) {
     }
   }
 
-  let deflectorCeiling: number | null = null
-  if (deflector === 'single') deflectorCeiling = 220
-  if (deflector === 'double') deflectorCeiling = 150
-
-  const cappedByDeflector = deflectorCeiling !== null && temp > deflectorCeiling
-  if (deflectorCeiling !== null) {
-    temp = Math.min(temp, deflectorCeiling)
-  }
-
   const glowStrength = Math.max(0.15, fireStrength)
   const flameHeight = 14 + fireStrength * 80
   const topY = Math.max(216, 280 - flameHeight)
@@ -126,6 +151,7 @@ function computeState(intake: number, exhaust: number, deflector: Deflector) {
     flameFill,
     flameOpacity,
     cappedByDeflector,
+    fireSizeNote,
   }
 }
 
@@ -144,9 +170,13 @@ export default function KamadoVentSimulator() {
   const [intake, setIntake] = useState(50)
   const [exhaust, setExhaust] = useState(50)
   const [deflector, setDeflector] = useState<Deflector>('none')
+  const [fireSize, setFireSize] = useState<FireSize>('medium')
   const [tempUnit, setTempUnit] = useState<'C' | 'F'>('C')
 
-  const state = useMemo(() => computeState(intake, exhaust, deflector), [intake, exhaust, deflector])
+  const state = useMemo(
+    () => computeState(intake, exhaust, deflector, fireSize),
+    [intake, exhaust, deflector, fireSize]
+  )
   const displayTemp = tempUnit === 'C' ? state.temp : Math.round((state.temp * 9) / 5 + 32)
 
   const chimneyFillWidth = (54 * exhaust) / 100 // fits inside the 60-wide chimney cap
@@ -156,11 +186,14 @@ export default function KamadoVentSimulator() {
     low: () => {
       setIntake(10)
       setExhaust(30)
+      setDeflector('single')
+      setFireSize('large')
     },
     sear: () => {
       setIntake(100)
       setExhaust(100)
       setDeflector('none')
+      setFireSize('large')
     },
     choke: () => {
       setIntake(80)
@@ -176,6 +209,12 @@ export default function KamadoVentSimulator() {
     { id: 'none', label: 'Direct' },
     { id: 'single', label: 'Indirect' },
     { id: 'double', label: 'Double indirect' },
+  ]
+
+  const fireSizeOptions: { id: FireSize; label: string }[] = [
+    { id: 'small', label: 'Small fire' },
+    { id: 'medium', label: 'Medium fire' },
+    { id: 'large', label: 'Large fire' },
   ]
 
   return (
@@ -195,6 +234,60 @@ export default function KamadoVentSimulator() {
           Interactive Kamado Joe style BBQ diagram showing how the top exhaust vent and bottom
           intake vent control fire temperature, airflow and smoke colour
         </h2>
+
+        <div style={{ width: '100%', maxWidth: 320, marginBottom: '1.25rem' }}>
+          <p
+            style={{
+              fontSize: 11,
+              letterSpacing: '0.12em',
+              textTransform: 'uppercase',
+              color: '#7A8F6A',
+              textAlign: 'center',
+              margin: '0 0 6px',
+            }}
+          >
+            Fire size
+          </p>
+          <div style={{ display: 'flex', backgroundColor: '#141414', borderRadius: 10, padding: 4, gap: 4 }}>
+            {fireSizeOptions.map((opt) => (
+              <button
+                key={opt.id}
+                type="button"
+                onClick={() => setFireSize(opt.id)}
+                style={{
+                  flex: 1,
+                  padding: '8px 6px',
+                  borderRadius: 7,
+                  border: 'none',
+                  cursor: 'pointer',
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: 12,
+                  fontWeight: fireSize === opt.id ? 600 : 400,
+                  backgroundColor: fireSize === opt.id ? '#E85C2B' : 'transparent',
+                  color: fireSize === opt.id ? '#1F1F1F' : '#C9C6BF',
+                  transition: 'background-color 0.15s, color 0.15s',
+                }}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+          <p
+            style={{
+              margin: '8px 0 0',
+              fontSize: 12,
+              lineHeight: 1.5,
+              textAlign: 'center',
+              color: '#C9C6BF',
+            }}
+          >
+            This is the size of the fire you light to start with — how many firelighters you use
+            and how they're arranged in the charcoal. Small: one or two firelighters close
+            together in the centre. Large: three or four firelighters spread across a few spots
+            around the centre. The size of this starting fire sets a floor on how low a
+            temperature you can bring the kamado down to later.
+          </p>
+        </div>
 
         <div style={{ width: '100%', maxWidth: 320, marginBottom: '1.25rem' }}>
           <p
@@ -234,6 +327,21 @@ export default function KamadoVentSimulator() {
             ))}
           </div>
         </div>
+
+        <p
+          style={{
+            width: '100%',
+            maxWidth: 320,
+            margin: '0 0 0.85rem',
+            fontSize: 12,
+            lineHeight: 1.5,
+            textAlign: 'center',
+            color: '#7A8F6A',
+          }}
+        >
+          Tip: move both vents together. Whatever change you make to one, make roughly the same
+          change to the other — they should almost always sit at similar positions.
+        </p>
 
         <div style={{ width: '100%', maxWidth: 320, marginBottom: '0.5rem' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
@@ -463,6 +571,21 @@ export default function KamadoVentSimulator() {
             Vent settings alone would run hotter here, but the deflector plate{deflector === 'double' ? 's' : ''} limit
             the air gap to the grate, capping the ceiling. This assumes plates sized correctly for your grill —
             undersized or ill-fitting plates leave gaps at the edges and won't cap heat as tightly.
+          </p>
+        )}
+
+        {state.fireSizeNote && (
+          <p
+            style={{
+              margin: '0.4rem 0 0',
+              fontSize: 12,
+              lineHeight: 1.5,
+              textAlign: 'center',
+              color: '#7A8F6A',
+              maxWidth: 400,
+            }}
+          >
+            {state.fireSizeNote}
           </p>
         )}
 
