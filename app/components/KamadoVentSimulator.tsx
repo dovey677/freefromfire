@@ -184,10 +184,10 @@ export default function KamadoVentSimulator() {
 
   const presets = {
     low: () => {
-      setIntake(10)
-      setExhaust(30)
+      setIntake(14)
+      setExhaust(14)
       setDeflector('single')
-      setFireSize('large')
+      setFireSize('medium')
     },
     sear: () => {
       setIntake(100)
